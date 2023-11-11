@@ -1,0 +1,61 @@
+/* .mainn {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.round {
+  width: 100px;
+  height: 100px;
+  background-color: #007bff; 
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s, width 0.3s, height 0.3s; 
+
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  animation: grow 0.7s forwards; 
+}
+
+@keyframes grow {
+  from {
+    width: 10px;
+    height: 10px;
+    font-size: 10px; 
+  }
+  to {
+    width: 100px;
+    height: 100px;
+    font-size: 50px; 
+  }
+} */
+
+
+/* .round:hover {
+  transform: scale(1.1); 
+  width: 120px; 
+  height: 120px; 
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease; 
+} */
+
+/* Define a keyframe animation for the circle growing from 0 size to current size */
+
+
+/* @keyframes grow {
+  0% {
+    transform: scale(0); 
+    width: 0; 
+    height: 0;
+  }
+  100% {
+    transform: scale(1); 
+    width: 100px; 
+    height: 100px; 
+  }
+} */

@@ -1,0 +1,46 @@
+.logo-img{
+    display: flex;
+    flex-direction: column;
+    
+}
+nav{
+    box-shadow: none;
+    
+}
+.nav-main{
+    width: 1331px;
+}
+
+@media screen and (min-width: 320px) {
+    .nav-main {
+        width: 1111px;
+    }
+}
+
+.search-result-item{
+    list-style: none; 
+  padding: 8px 0;
+
+    
+}
+.search-result-item a {
+    text-decoration: none; 
+    color: #333; 
+    font-weight: bold; 
+}
+.search-result-item a:hover {
+    color: #ff6600; 
+}
+.search-results{
+    border-radius: 2rem;
+    top: 6rem;
+    width: 380px;
+    background-color: white;
+    position: absolute;
+    left: 42rem;
+    z-index: 6;
+}
+.sech-result{ 
+    padding-left: 3rem;
+
+}  

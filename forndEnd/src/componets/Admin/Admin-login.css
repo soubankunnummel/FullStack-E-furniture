@@ -1,0 +1,17 @@
+.login-main{
+    margin-top: 5rem;
+    width: 600px;
+    margin-left: 20rem;
+}
+@media screen and (max-width:320px) {
+    .login-main{
+        width: 1000px;
+        margin-left: 4rem;
+        
+    }
+      
+    
+}
+.logo-img{
+    width: 33px;
+}

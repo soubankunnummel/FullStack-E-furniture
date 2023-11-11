@@ -1,0 +1,279 @@
+.ban-img{
+    width: 350px;
+    
+}
+
+
+
+
+
+
+
+.categorys{
+    
+    color: black;
+    
+}
+.categorys:hover{
+    text-decoration: underline;
+}
+.newLower-text{
+    color: black !important;
+    font-size: 30px;
+    font-weight: bold;
+    
+}
+.shotnow-btn{
+    border: 1px solid black;
+    border-radius: 40px;
+    height: 40px;
+    width: 100px;
+    margin-left: 3rem;
+    color: black;
+}
+.shotnow-btn:hover{
+    border: 2px solid black;
+}
+.carsl-img{
+    width: 100px;
+    height: 50px;
+}
+
+
+
+.crosel-img{
+    width:100% ;
+    height: 20rem;
+    z-index: 3;
+    /* margin-left: 4rem; */
+    
+}
+.crosel-img1{
+    width: 100%;
+    height: 293px;
+    z-index: -1;
+}
+.card-btn{
+    z-index: 999;
+    position: relative;
+    bottom: 77px;
+    left: 58px;
+    border: none;
+    border-radius: 5rem;
+    width: 7rem;
+    height: 40px;
+    color: #000;
+    font-weight: 500;
+    font-size: 14px;
+}
+.card-btn-storage{
+    z-index: 999;
+    position: relative;
+    bottom: 77px;
+    left: 34px;
+    border: none;
+    border-radius: 5rem;
+    width: 10rem;
+    height: 40px;
+    color: #000;
+    font-weight: 500;
+    font-size: 14px;
+
+}
+.card-btn-Office{
+    z-index: 999;
+    position: relative;
+    bottom: 77px;
+    left: 36px;
+    border: none;
+    border-radius: 5rem;
+    width: 9rem;
+    height: 40px;
+    color: #000;
+    font-weight: 500;
+    font-size: 14px;
+ 
+
+}
+.text-area{
+   
+    margin-left: 1rem;
+}
+.tex-joinus{
+    
+ background-color: rgb(245, 245, 245);
+
+}
+
+
+
+
+.textJoin{
+    color: #000;
+    margin-top: 3rem;
+}
+.text-Tips{
+    color: #000;
+    margin-top: 4rem;
+}
+
+.more-image{
+    width: 155px;
+    margin-top: 18px;
+}
+.img-undr{
+    width: 349.74px;
+} 
+.under-div1{
+   height: 490px;
+   width: 349.74px;
+    background-color: #F4811F;
+}
+.under-div2{
+   height: 490px;
+   width: 349.74px;
+   background-color: #713c1a;
+}
+.under-div3{
+   height: 490px;
+   width: 349.74px;
+   background-color: #0077c2;
+}
+.under-text{
+    color: #000;
+    font-size: 29px;
+    padding-left: 2rem;
+    padding-top: 2rem;
+}
+.under-text:hover{
+    text-decoration: underline;
+}
+
+.under-text3{
+    color: #ffffff;
+    font-size: 29px;
+    padding-left: 2rem;
+    padding-top: 2rem;
+}
+.under-text3:hover{
+    text-decoration: underline;
+}
+
+
+
+.under-text1{
+    color: #000;
+    padding-left: 2rem;
+
+
+}
+.under-text2{
+    color: #ffffff;
+    padding-left: 2rem;
+
+
+}
+.text{
+    width: 285.74px;
+}
+.butnt{
+    left: 6rem;
+    position: absolute;
+    z-index: 3;
+    top: 162rem;
+    
+    
+    
+}
+.butnt2{
+    left: 30rem;
+    position: absolute;
+    z-index: 3;
+    top: 162rem;
+    
+    
+}
+
+.butnt3{
+    left: 54rem;
+    position: absolute;
+    z-index: 3;
+    top: 162rem;
+    
+    
+}
+
+/* @media screen and (max-width:320px) {
+    .butnt2{
+        top:198rem ;
+    }
+    .butnt{
+        top:198rem ;
+    }
+    
+  
+    
+}
+@media screen and (max-width:320px) {
+    .butnt3{
+        top:198rem;
+    }
+    
+}
+
+@media screen and (max-width: 320px) {
+    .ban-main {
+        width: 1111px;
+    }
+}
+@media screen and (max-width:320px) {
+    .text-rightnow{
+        margin-left: 7rem;
+    }
+    
+}
+
+
+@media screen and (max-width: 320px) {
+    .ttd {
+        margin-left: 23rem;
+    }
+}
+@media screen and (max-width:320px) {
+    .text-join{
+        width: 870px;
+        margin-left: 21rem;
+    }
+    
+}
+@media screen and (max-width:320px) {
+    .image{
+        margin-left: 7rem ;
+    }
+    
+}
+
+
+@media screen and (max-width: 320px) {
+    .long-img{
+        width: 1172px;
+    }
+    
+}
+
+
+@media  screen and (max-width: 320px){
+    .ban-crosel{
+        position: relative;
+        left: 21rem ;
+        
+    }
+    
+}
+
+@media screen and (max-width:320px) {
+    .text-Tips{
+        margin-left: 7rem;
+    }
+    
+} */

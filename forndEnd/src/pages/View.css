@@ -1,0 +1,5 @@
+@media screen and (max-width:320px) {
+    .view-card{
+        width: 1000px;
+    }
+}
