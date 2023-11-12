@@ -18,12 +18,12 @@ import Navebar from "./Navebar";
 export default function AllProducts() {
   const navigate = useNavigate();
 
-  // Define the function to navigate to the product view
+  
   const handleViewProduct = (productId) => {
     navigate(`/View/${productId}`);
   };
 
-  const { productss } = useContext(Productcontext);
+  const { products } = useContext(Productcontext);
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function AllProducts() {
       <div className="container mx-5">
        
         <MDBRow className="mt-5 my-5" id="allproducts">
-          {productss.map((product, index) => (
+          {products.map((product, index) => (
               <MDBCol md="3" key={index} style={{ marginBottom: 10 }}>
                 <MDBCard className=" hover-zoom  ">
                   <MDBCardImage

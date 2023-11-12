@@ -11,7 +11,7 @@ import {
 import {  useNavigate } from "react-router-dom";
 import { Productcontext } from "../Context";
 import axios from "axios"
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 
 export default function Login(props) { 
@@ -25,8 +25,8 @@ export default function Login(props) {
   
     const username = e.target.username.value.trim().toLowerCase();
     const password = e.target.password.value.trim();
-    const adminUserName = "souban";
-  
+    const adminUserName = process.env.REACT_APP_ADMIN_USER_NAME
+   
     if (username === "" || password === "") {
       toast.error("Enter all the inputs");
       return;
@@ -47,7 +47,7 @@ export default function Login(props) {
         localStorage.setItem("jwt", response.data.data);
         localStorage.setItem("userName", response.data.username);
         
-  
+
         if (username === adminUserName) {
           navigate("/ViewProduct");
           toast.success("Login Successful");
@@ -55,6 +55,7 @@ export default function Login(props) {
           setTimeout(() => {
             localStorage.removeItem("jwt");
           }, 3600000);
+          userName(response.data.username)
           navigate("/");
           toast.success("Login Successful");
         }
@@ -72,7 +73,6 @@ export default function Login(props) {
 
   return (
     <>
-    <Toaster position="top-center" reverseOrder={false} />
       <div className="login-main ">
         <MDBContainer>
           <MDBRow className="">

@@ -53,7 +53,7 @@ module.exports = {
       username: username,
     });
     const id = user.id
-    const usrname = user.name
+    // const usrname = user.name
     
     // console.log(id,usrname)
 

@@ -40,10 +40,20 @@ import Works from "./componets/Works";
 import Outdor from "./componets/Outdor";
 import Bathroom from "./componets/Bathroom";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+
+export const Axios = axios.create({
+  baseURL : process.env.REACT_APP_BASE_URL,
+  headers: {
+    "Content-Type":"application/json",
+    Authorization: localStorage.getItem('jwt'),
+  }
+
+})
 
 
 function App() {
+  // console.log(process.env.REACT_APP_BASE_URL)
   const handlClick = (item) => {
     console.log(item);
   };
@@ -57,14 +67,26 @@ function App() {
 
   const [user, setUser] = useState([]); 
   const [cart, setCart] = useState([]);
-  const [userName, setUerName] = useState("");
   const [serchTerm, setSerchTerm] = useState("");
   const [login,setLogin] = useState(userList)
 
   // api fetching
   const [users, setUsers] = useState([])
+  const [products, setProducts] = useState([])
+  const [userName, setUerName] = useState("");
   
+ 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
 
+  //     try {
+  //       const response = await Axios.get("/")
+        
+  //     } catch (error) {
+        
+  //     }
+  //   }
+  // })
 
 
   useEffect(() => {
@@ -84,9 +106,9 @@ function App() {
       }
     }
     fetchUser()
-
-    console.log(users)
   },[])
+
+
   return (
     <>
    
@@ -107,16 +129,22 @@ function App() {
           cart,
           user,
           setUser,
-          userName,
-          setUerName,
+          
           itemCount,
           setItemCount,
           //api states
           users,
+          products,
+          setProducts,
+          userName,
+          setUerName,
+
         }}
-      >
         
+      >
+         <Toaster position="top-center" reverseOrder={false} />
         <Routes>
+
           if (BedroomProducts) {<Route path="/Bedroom" element={<Bedroom />} />}
           if (DinigRoom) {<Route path="/DinigRoom" element={<DiningRoom />} />}
           if (LivingRoom){" "}
@@ -136,7 +164,7 @@ function App() {
           <Route path="/More/:id" element={<ViewMoredetail/>}/>
           <Route path="/Allproduct" element={<Allproducts/>}/>
           <Route path="/Alloerders" element={<Alloders/>}/>
-          <Route path="/pypal" element={<Paypal/>}/>
+          {/* <Route path="/pypal" element={<Paypal/>}/> */}
           <Route path="/kichen" element={<Kichen/>}/>
           <Route path="/Living" element={<Living/>}/>
           <Route path="/Dinig" element={<Dining/>}/>

@@ -21,7 +21,7 @@ export default function ViewUsers() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const jwtToken =  {
+        const jwtToken =  { 
           
           headers: {
             Authorization: `${localStorage.getItem('jwt')}`,

@@ -1,20 +1,57 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Productcontext } from "../../Context";
 import { useNavigate } from "react-router-dom";
-import AdmiNav from "./AdmiNav";
+import AdmiNav from "./AdmiNav"; 
+import { Axios } from "../../App";
+import toast from "react-hot-toast";
 
 export default function ViewPoduct() {
   const navigate = useNavigate();
-  const { productss, setProductss } = useContext(Productcontext);
+  const { products, setProducts } = useContext(Productcontext);
 
-  const handleRemove = (Itemid) => {
-    const RemoveProducts = productss.filter((item) => item.id !== Itemid);
-    setProductss(RemoveProducts);
-  };
-  const handlEdit = (productId) => {
-    navigate(`/EditProduct/${productId}`)
+  const handleRemove = async (productId) => {
+   
+    try {
+        const response = await Axios.delete(`/api/admin/products/${productId}`);
 
-  }
+        if (response.status === 200) {
+       
+           
+          
+            setProducts(response.data.data);
+
+            toast.success('Product deleted successfully!');
+        } 
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        toast.error('Failed to delete product.');
+    }
+};
+
+const handlEdit = async (productId) => {
+  navigate(`EditProduct${productId}`)
+  
+};
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+
+        const response = await Axios.get("/api/admin/products")
+      
+        if(response.status === 200){
+          setProducts(response.data.data)
+
+        }
+        
+      } catch (error) {
+        
+      } 
+    }
+    fetchProducts()
+  },[])
+
   return (
     <>
     <AdmiNav/>
@@ -41,13 +78,13 @@ export default function ViewPoduct() {
             </tr>
           </thead>
           <tbody>
-            {/* map here */}
+            
 
-            {productss.map((items, intex) => (
-              <tr key={items.id}>
+            {products.map((items, intex) => (
+              <tr key={items._id}>
                 <th scope="row">{intex + 1} </th>
-                <td>{items.name} </td>
-                <td>{items.type} </td>
+                <td>{items.title} </td>
+                <td>{items.category} </td>
                 <td>{items.description} </td>
                 <td>
                   <img
@@ -58,21 +95,21 @@ export default function ViewPoduct() {
                 </td>
                 <td>
                   <button
-                    className="btn btn-primary "
-                    onClick={()=> handlEdit(items.id)}
+                    className="btn btn-primary me-5 "
+                    onClick={()=> handlEdit(items._id)}
                   >
                     Edit
                   </button>
                   <button
                     className="btn btn-danger mt-3"
-                    onClick={() => handleRemove(items.id)}
+                    onClick={() => handleRemove(items._id)}
                   >
                     Delete
                   </button>
                 </td>
               </tr>
             ))}
-            {/* map herr */}
+           
           </tbody>
         </table>
       </div>

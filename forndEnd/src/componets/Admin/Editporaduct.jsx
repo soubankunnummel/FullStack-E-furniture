@@ -12,7 +12,7 @@ export default function EditProduct() {
     const [description, setDescription] = useState(viewproduct.description || ''); 
     const [image, setImage] = useState(viewproduct.image || ''); 
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     const handleSubmit = (e) => {
         e.preventDefault();

@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Productcontext } from "../../Context";
 import AdmiNav from "./AdmiNav";
 
 export default function Allproducts() {
-  const { productss } = useContext(Productcontext);
+  const { products } = useContext(Productcontext);
+
+
+  
 
   return (
     <>
@@ -21,9 +24,9 @@ export default function Allproducts() {
         </tr>
       </thead>
       <tbody>
-        {productss.map((product, index) => (
-          <tr key={product.id}>
-            <th scope="row">{product.id}</th>
+        {products.map((product, index) => (
+          <tr key={product._id}>
+            <th scope="row">{product._id}</th>
             <td>{product.name}</td>
             <td>{product.type}</td>
             <td>{product.description}</td>

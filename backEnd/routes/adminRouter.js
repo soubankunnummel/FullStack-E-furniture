@@ -9,7 +9,7 @@ const imageUplod = require("../middelwares/imageUplod/imageUpload")
 router.use(express.json())
 
 router
-.post("/login",tryCatchMiddleware(admin.login))
+.post("/login",tryCatchMiddleware(admin.login)) 
 
 // apk middleware  start
  
@@ -22,8 +22,8 @@ router
 .post("/products",imageUplod, tryCatchMiddleware(admin.creatProduct))
 .get("/products", tryCatchMiddleware(admin.allProducts))
 .get("/products/:id", tryCatchMiddleware(admin.productsById)) 
-.delete("/products", tryCatchMiddleware(admin.deleteProduct))
-.put("/products", tryCatchMiddleware(admin.updateProduct))
+.delete("/products/:id", tryCatchMiddleware(admin.deleteProduct))
+.put("/products/:id", tryCatchMiddleware(admin.updateProduct))
 .get("/orders",tryCatchMiddleware(admin.orderDtails))
 .get("/status",tryCatchMiddleware(admin.status))
 
