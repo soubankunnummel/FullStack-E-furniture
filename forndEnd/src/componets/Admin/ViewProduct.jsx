@@ -29,7 +29,7 @@ export default function ViewPoduct() {
 };
 
 const handlEdit = async (productId) => {
-  navigate(`EditProduct${productId}`)
+  navigate(`/EditProduct/${productId}`)
   
 };
 
