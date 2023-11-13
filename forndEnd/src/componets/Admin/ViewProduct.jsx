@@ -34,7 +34,7 @@ const handlEdit = async (productId) => {
 };
 
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchProducts = async () => {
       try {
 

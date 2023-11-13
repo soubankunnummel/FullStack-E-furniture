@@ -17,7 +17,7 @@ import toast from 'react-hot-toast'
 export default function Login(props) { 
 
   const navigate = useNavigate();
-  const { login, userName, isLogin, admin } = useContext(Productcontext);
+  const {  setUerName} = useContext(Productcontext);
 
 
   const handlLogin = async (e) => {
@@ -42,7 +42,7 @@ export default function Login(props) {
       const payload = { username, password };
       const response = await axios.post(url, payload);
   
-      if (response.status === 200) {
+      if (response.status === 200 ) {
         username !== adminUserName && localStorage.setItem("userId", response.data.id);
         localStorage.setItem("jwt", response.data.data);
         localStorage.setItem("userName", response.data.username);
@@ -55,19 +55,20 @@ export default function Login(props) {
           setTimeout(() => {
             localStorage.removeItem("jwt");
           }, 3600000);
-          userName(response.data.username)
           navigate("/");
           toast.success("Login Successful");
+        
         }
-      } else {
-        toast.error("Invalid username or password");
-      }
+      } 
+      else {
+        toast.error(response.message);
+      } 
     } catch (error) {
       console.log(error);
       toast.error("Invalid username or password");
     }
   };
-  ;
+  
 
   const navigat = useNavigate();
 

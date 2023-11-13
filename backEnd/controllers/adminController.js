@@ -56,7 +56,7 @@ if (allUsers.length === 0) {
   },
 
   //View a specific user details by id
-
+  //TODO:add more details of user
   useById: async (req, res) => {
     const userId = req.params.id;
     const user = await Users.findById(userId);
@@ -71,7 +71,7 @@ if (allUsers.length === 0) {
     res.status(200).send({
       status: "Succes",
       message: "Succesfuly find user",
-      data: user,
+      data: {user},
     });
   },
 
@@ -174,37 +174,39 @@ if (allUsers.length === 0) {
   // admin update product 
 
   updateProduct: async (req, res) => {
-    const { value, error } = joiProductSchema.validate(req.body);
+    try {
+        const { value, error } = joiProductSchema.validate(req.body);
+
+        const { id, title, description, price, image, category } = value;
+        console.log(title)
+        if (error) {
+            return res.status(401).json({ status: 'error', message: error.details[0].message });
+        }
+
     
-    
-    if (error) {
-      return res.status(401).send({ message: error.details[0].message });
+
+        const updatedProduct = await products.findByIdAndUpdate(
+            id,
+            { $set: { title, description, price, image, category } },
+            { new: true } // This option returns the modified document rather than the original
+        );
+        console.log(updatedProduct)
+
+        if (updatedProduct) {
+            const updatedProducts = await products.find();
+            return res.status(200).json({
+                status: 'success',
+                message: 'Successfully updated the product.',
+                data: updatedProducts,
+            });
+        } else {
+            return res.status(404).json({ status: 'error', message: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('Error updating product:', error);
+        return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
-    const { id, title, discription, price, image, category } = value;
-    console.log(value)
-
-
-    // const product = await products.find();
-    // if (!product) {
-    //   return res
-    //     .send(404)
-    //     .json({ status: "Failear", message: "Producnt not fount in database" });
-    // }
-    const product = await products.findByIdAndUpdate(id,{$set:{ title, discription, price, image, category }});
-    if (product) {
-      const updatedProducts = await products.find()
-      res.status(200).json({
-          status: 'success',
-          message: 'Successfully updated a product.',
-          data: updatedProducts
-      })
-  } else {
-      res.status(404).json({ message: 'Product not found' });
-  }
-    res
-      .status(201)
-      .json({ status: "Success", message: "Product updated" });
-  },
+},
 
   // admin Order details
 

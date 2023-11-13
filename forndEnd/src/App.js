@@ -73,7 +73,7 @@ function App() {
   // api fetching
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
-  const [userName, setUerName] = useState("");
+  const [userName, setUerName] = useState([]);
   
  
   // useEffect(() => {
@@ -136,8 +136,7 @@ function App() {
           users,
           products,
           setProducts,
-          userName,
-          setUerName,
+          userName, setUerName
 
         }}
         

@@ -49,9 +49,11 @@ module.exports = {
     }
 
     const { username, password } = value;
+    console.log(username);
     const user = await User.findOne({
       username: username,
     });
+    
     const id = user.id
     // const usrname = user.name
     
@@ -61,20 +63,25 @@ module.exports = {
     if (!user) {
       return res.status(404).json({
         status: "error",
-        message: "User not fount 🧐",
+        message: "User not found",
       });
     }
+    
     if (!password || !user.password) {
       return res
         .status(400)
         .json({ status: "error", message: "Invalid input" });
     }
+    
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res
         .status(401)
-        .json({ error: "erroe", message: "incorrect passwoerd" });
+        .json({ error: "error", message: "Incorrect password" });
     }
+    
+    
+    
     const toekn = jwt.sign(
       { username: user.username },
       process.env.USER_ACCES_TOKEN_SECRET,

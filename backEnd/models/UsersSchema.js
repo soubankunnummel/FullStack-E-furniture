@@ -6,11 +6,16 @@ const userSchema =  new mongoos.Schema({
     email:String,
     username:String,
     password:String,
+    phone:Number,
+    gender:String,
+    address:String,
+    dob:Number,
     cart: [{type:mongoos.Schema.ObjectId, ref:"Product"}],
     wishlist:[{type:mongoos.Schema.ObjectId, ref:"Product"}],
     orders:[]
 
 })
+//TODO:add more detail schema of user
  
 userSchema.pre("save", async function(next) {
     const user = this; 

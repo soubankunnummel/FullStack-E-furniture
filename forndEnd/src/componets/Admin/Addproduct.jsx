@@ -13,7 +13,7 @@ export default function AddProduct() {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null); 
+  const [image, setImage] = useState(null);  
 
   const handleImageChange = (e) => {
     // Update the state with the selected image file
