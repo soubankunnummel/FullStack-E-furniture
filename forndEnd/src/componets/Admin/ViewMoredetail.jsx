@@ -9,7 +9,7 @@ export default function ViewMoreDetail() {
   const { id } = useParams();
 
   // const { users } = useContext(Productcontext);
- const [users, setUsers] = useState(null)
+ const [users, setUsers] = useState([])
  console.log(users)
  const [loading, setLoading] = useState(true)
   // Find the user by id
@@ -19,7 +19,7 @@ export default function ViewMoreDetail() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        
+         
 
         const response = await Axios.get(`/api/admin/user/${id}`);
         if (response.status === 200) {

@@ -5,7 +5,12 @@ const productSchema = new mongoos.Schema({
     description: String,
     price: Number,
     image: String,
-    category: String
+    category: String,
+    quantity: {
+        type: Number,
+        default: 1, 
+    }
+   
 
 })
 

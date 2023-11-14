@@ -94,7 +94,21 @@ module.exports = {
       .json({ status: "succes", message: "Login Successfull", data: toekn, username, id });
   },
 
-  // view product by category
+  // every one can access products
+
+  allProducts: async (req, res) => {
+    const products = await product.find(); 
+    if (!products) {
+      res.status(404).send({ status: "error", message: "product not found" });
+    }
+    res.status(200).send({
+      status: "succes",
+      message: "Succes fully feched data ",
+      data: products,
+    });
+  },
+
+  // view all product by category
 
   viewProduct: async (req, res) => {
     const products = await product.find(); 
@@ -155,7 +169,9 @@ module.exports = {
         message: "User not fount",
       });
     }
+  
     const { producId } = req.body;
+
 
     if (!producId) {
       return res.status(404).send({
@@ -163,6 +179,7 @@ module.exports = {
         message: "Product not fount ☹️",
       });
     }
+
 
     await User.updateOne({ _id: userId }, { $addToSet: { cart: producId } });
     res.status(200).send({
@@ -177,7 +194,7 @@ module.exports = {
     // console.log(req.body)
     const userId = req.params.id;
     const user = await User.findById(userId);
-    // console.log(user)
+    // console.log(user) 
     if (!user) {
       return res
         .status(404)

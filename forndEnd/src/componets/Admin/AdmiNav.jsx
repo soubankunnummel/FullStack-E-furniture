@@ -18,7 +18,7 @@ export default function AdmiNav() {
   const  nvigate = useNavigate()
     const {admin} = useContext(Productcontext)
   const [showBasic, setShowBasic] = useState(false);
-
+  const isAdmin = localStorage.getItem("role")
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
@@ -58,12 +58,12 @@ export default function AdmiNav() {
 
             
           </MDBNavbarNav>
-            {admin ? (
-                <MDBBtn className='w-25' onClick={()=> nvigate('/')}>Log out</MDBBtn>
+            {isAdmin ? (
+                <MDBBtn className='w-25' onClick={()=> nvigate('/login')}>Log out</MDBBtn>
                 
                 ):(
 
-                <MDBBtn className='w-25'  onClick={()=> nvigate('/')}>LogIn</MDBBtn>
+                <MDBBtn className='w-25'  onClick={()=> nvigate('/login')}>LogIn</MDBBtn>
                 )}
 
           

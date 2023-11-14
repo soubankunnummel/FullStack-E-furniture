@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Productcontext } from "../../Context";
 import { useNavigate } from "react-router-dom";
 import AdmiNav from "./AdmiNav"; 
@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 
 export default function ViewPoduct() {
   const navigate = useNavigate();
-  const { products, setProducts } = useContext(Productcontext);
-
+  // const { products, setProducts } = useContext(Productcontext);
+  const [products, setProducts] = useState([])
   const handleRemove = async (productId) => {
    
     try {

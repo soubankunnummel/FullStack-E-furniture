@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -27,10 +27,18 @@ export default function Navebar({ size }) {
     useContext(Productcontext);
   // const userName = login.filter((user) => user.id === login.id);
   console.log(userName);
-  const hanleLogine = () => {
-    setUerName(() => []);
+
+  let storUseName = localStorage.getItem("userName");
+
+  const hanleLogOUt = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    storUseName = null;
     navigat("/");
   };
+  //     useEffect(() => {
+
+  // },[])
   return (
     <>
       <MDBNavbar
@@ -115,34 +123,38 @@ export default function Navebar({ size }) {
               />
             </form>
             {serchTerm ? (
-  <>
-    <div className="search-results">
-    {productss
-  .filter((val) => {
-    if (serchTerm === "") {
-      return true; // Include all items when the search term is empty
-    } else if (val.name.toLowerCase().includes(serchTerm.toLowerCase())) {
-      return true; // Include items that match the search term
-    }
-    return false; // Exclude items that don't match the search term
-  })
-  .map((item) => (
-    <div className="search-result-item" key={item.id}>
-      <hr />
-      <p
-        onClick={() => {
-          navigat(`/View/${item.id}`);
-          setSerchTerm("")
-        }}
-        className="sech-result"
-      >
-        {item.name}
-      </p>
-    </div>
-  ))}
-    </div>
-  </>
-) : ""}
+              <>
+                <div className="search-results">
+                  {productss
+                    .filter((val) => {
+                      if (serchTerm === "") {
+                        return true; // Include all items when the search term is empty
+                      } else if (
+                        val.name.toLowerCase().includes(serchTerm.toLowerCase())
+                      ) {
+                        return true; // Include items that match the search term
+                      }
+                      return false; // Exclude items that don't match the search term
+                    })
+                    .map((item) => (
+                      <div className="search-result-item" key={item.id}>
+                        <hr />
+                        <p
+                          onClick={() => {
+                            navigat(`/View/${item.id}`);
+                            setSerchTerm("");
+                          }}
+                          className="sech-result"
+                        >
+                          {item.name}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
             <MDBDropdown group className="shadow-0">
               <MDBDropdownToggle color="white">
                 <MDBIcon
@@ -155,25 +167,29 @@ export default function Navebar({ size }) {
               <MDBDropdownMenu>
                 <MDBDropdownItem link onClick={() => navigat("/")}>
                   {" "}
-                  {userName}{" "}
+                  {storUseName}{" "}
                 </MDBDropdownItem>
                 <MDBDropdownItem link onClick={() => navigat("/")}>
                   Settings
                 </MDBDropdownItem>
-                {userName === "" ? (
-                  <MDBDropdownItem className="ms-3" onClick={() => navigat("/Login")}>
+                {storUseName === null ? (
+                  <MDBDropdownItem
+                    className="ms-3"
+                    onClick={() => navigat("/Login")}
+                  >
                     Sign In{" "}
                   </MDBDropdownItem>
                 ) : (
-                  <MDBDropdownItem link onClick={hanleLogine}>
+                  <MDBDropdownItem link onClick={hanleLogOUt}>
                     {" "}
                     sign Out{" "}
                   </MDBDropdownItem>
                 )}
-               
               </MDBDropdownMenu>
             </MDBDropdown>
-            {userName === "" ? null : (
+            {storUseName === null ? (
+              ""
+            ) : (
               <>
                 <Link to={"/Cart"}>
                   <MDBIcon

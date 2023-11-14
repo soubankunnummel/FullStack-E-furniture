@@ -75,38 +75,6 @@ function App() {
   const [products, setProducts] = useState([])
   const [userName, setUerName] = useState([]);
   
- 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-
-  //     try {
-  //       const response = await Axios.get("/")
-        
-  //     } catch (error) {
-        
-  //     }
-  //   }
-  // })
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-
-      try{
-
-        const twtToken = {headers: {Authorization: `${localStorage.getItem("jwt")}`}}
-        const response = await axios.get("http://localhost:7000/api/admin/users",twtToken)
-        if(response.status === 200) {
-          setUsers(response.data.data)
-        }
-      }
-      catch (error){
-        console.error('Error fetching users:', error);
-        toast.error(error.response.data.message)
-      }
-    }
-    fetchUser()
-  },[])
 
 
   return (

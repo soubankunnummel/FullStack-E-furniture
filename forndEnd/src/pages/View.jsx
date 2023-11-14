@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Productcontext } from "../Context";
 import './View.css'
@@ -13,73 +13,92 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import Navebar from "../componets/Navebar";
+import { Axios } from "../App";
+import toast from "react-hot-toast";
 
 export default function View() {
-  const { productss, cart, setCart, userName } = useContext(Productcontext);
+  // const {  cart, setCart, userName } = useContext(Productcontext);
+  const [product, setProduct] = useState([])
+  console.log(product)
   const { id } = useParams();
-  
-  const navigate = useNavigate();
-  
-  // Filter the product that matches the 'id' parameter
-  const viewProduct = productss.filter(
-    (product) => product.id === parseInt(id)
-  );
+  const userId = localStorage.getItem("userId")
+// console.log(product.length)
+  const navigate = useNavigate(); 
+  const cartCount = localStorage.getItem("count")
 
-  if (!viewProduct) {
-    // Handle the product is not found
-    return <h1 style={{ textAlign: "center" }}>Product not found</h1>;
-  }
-  
-  const handleAddToCart = () => {
-    // Check if the product is already in the cart
-    if (cart.includes(viewProduct[0])) {
-      alert("Product is already added to the cart");
-    } else {
-      // Add the selected product to the cart
-      setCart(() => [...cart, ...viewProduct]);
-      console.log(cart);
+  useEffect(() => {
+    const fechProduct = async () => {
+      try {
+        const response = await Axios.get(`/api/users/products/${id}`)
+        if(response.status === 200) {
+            setProduct(response.data.data)
+        }
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
     }
-    
-    if (userName === "") {
-      alert("Please login");
-      navigate("/Login");
-    } else {
-      // User is logged in, allow them to add to cart
-      alert("Product successfully added to the cart");
-      navigate("/Cart");
+    fechProduct()
+  },[id])
+  
+
+  if (!product) { return <h1 style={{ textAlign: "center" }}>Product not found</h1>;}
+  
+  // add to cart
+
+
+  const handleAddToCart = async () => {
+    try {
+      const response = await Axios.post( `/api/users/${userId}/cart`,{
+        producId: id,
+        quantity:1  
+      })
+      if (response.status === 200){
+        
+        toast.success("Product added to the cart!")
+
+      }
+      
+    } catch (error) {
+      console.error('Error adding product to the cart:', error);
+      toast.error('Failed to add product to the cart. Please try again.')
     }
   };
   
-  const handleBuyNow = () => {
-    if (userName === "") {
-      alert("Please login");
+  const handleBuyNow =  () => {
+   
+    if (userId === "") {
+      toast.error("Please login");
       navigate("/Login");
     }else{
       navigate("/Cart");
       
     }
 
-    
   };
+ 
+
+
 
   return (
     <>
-      <Navebar size={cart.length}  />
+      <Navebar size={cartCount}  />
     <div className="container mt-5">
-      {viewProduct.map((item) => (
-        <MDBRow key={item.id} className="view-card">
+      
+        <MDBRow key={product._id} className="view-card">
           <MDBCol md="6">
             <MDBCard>
-              <MDBCardImage src={item.image} alt={viewProduct.name} />
+              <MDBCardImage src={product.image} alt={product.title} />
             </MDBCard>
           </MDBCol>
           <MDBCol md="6">
             <MDBCard>
               <MDBCardBody>
-                <MDBCardTitle>{item.name}</MDBCardTitle>
-                <MDBCardText>{item.description}</MDBCardText>
+                <MDBCardTitle>{product.name}</MDBCardTitle>
+                <MDBCardText>{product.description}</MDBCardText>
                 <MDBCardText>
-                  <strong>Price:</strong> ₹{item.price}
+                  <strong>Price:</strong> ₹{product.price}
                 </MDBCardText>
 
                 <MDBBtn
@@ -97,13 +116,13 @@ export default function View() {
             <div className="container exra-imges">
               <div className="row">
                 <div className="col card mt-4"style={{height:"15rem"}}>
-                  <img className="more-image"  src={item.imge1} alt="" />
+                  <img className="more-image"  src={product.imge1} alt="" />
                 </div>
                 <div className="col card mt-4"style={{height:"15rem"}}>
-                  <img className="more-image"  src={item.imge2} alt="" />
+                  <img className="more-image"  src={product.imge2} alt="" />
                 </div>
                 <div className="col card mt-4"style={{height:"15rem"}}>
-                  <img className="more-image"  src={item.imge3} alt="" />
+                  <img className="more-image"  src={product.imge3} alt="" />
                 </div>
                 
               </div>
@@ -114,7 +133,7 @@ export default function View() {
       
         </MDBRow>
 
-      ))}
+    
     </div>
     </>
   );

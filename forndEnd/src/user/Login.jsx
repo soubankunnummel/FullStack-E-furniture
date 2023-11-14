@@ -44,6 +44,7 @@ export default function Login(props) {
   
       if (response.status === 200 ) {
         username !== adminUserName && localStorage.setItem("userId", response.data.id);
+        username === adminUserName && localStorage.setItem("role", "admin")
         localStorage.setItem("jwt", response.data.data);
         localStorage.setItem("userName", response.data.username);
         

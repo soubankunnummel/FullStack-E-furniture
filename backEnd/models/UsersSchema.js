@@ -15,7 +15,7 @@ const userSchema =  new mongoos.Schema({
     orders:[]
 
 })
-//TODO:add more detail schema of user
+
  
 userSchema.pre("save", async function(next) {
     const user = this; 
