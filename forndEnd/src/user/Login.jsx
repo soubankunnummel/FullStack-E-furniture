@@ -55,6 +55,8 @@ export default function Login(props) {
         } else {
           setTimeout(() => {
             localStorage.removeItem("jwt");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userName");
           }, 3600000);
           navigate("/");
           toast.success("Login Successful");

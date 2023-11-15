@@ -74,6 +74,7 @@ function App() {
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
   const [userName, setUerName] = useState([]);
+  const [cartCount, setCartCount] = useState([])
   
 
 
@@ -103,8 +104,8 @@ function App() {
           //api states
           users,
           products,
-          setProducts,
-          userName, setUerName
+          setProducts,cartCount, setCartCount,
+          userName, setUerName,
 
         }}
         
@@ -120,9 +121,9 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/All" element={<AllProducts />} />
           <Route path="/Register" element={<Register />} />
-          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Cart/:id" element={<Cart />} />
           <Route path="/Pyment" element={<Pyment />} />
-          <Route path="/View/:id" element={<View />} />
+          <Route path="/View/:id"  element={<View/>}/>
           <Route path="/AdminLogin" element={<AdminLogin />} />
           <Route path="/ViewProduct" element={<ViewPoduct/>}/>
           <Route path="/EditProduct/:id" element={<Editporaduct/>}/> 

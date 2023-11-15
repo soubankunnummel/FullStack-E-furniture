@@ -9,21 +9,30 @@ import {
   MDBContainer,
   MDBIcon,
   MDBRow,
-  MDBTypography,
+  MDBTypography, 
 } from "mdb-react-ui-kit";
 import { Productcontext } from "../Context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navebar from "../componets/Navebar";
 import { Axios } from "../App";
+import toast from "react-hot-toast";
 
-export default function Cart() {
+export default function Cart({}) {
   // const { cart, setCart, itemCount } = useContext(Productcontext);
+  const {cartCount, setCartCount} = useContext(Productcontext)
   const [products, setProducts] = useState([])
-  console.log(products)
+  const {id} = useParams()
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId")
-  const cartCount = localStorage.setItem("count", products.length)
-  // console.log(userId)
+
+  
+ useEffect(() => {
+  setCartCount(localStorage.setItem("count", products.length ))
+ },[])
+
+  
+
+    // feching cart products
 
   useEffect(() => { 
     const fechCart = async () => {
@@ -37,44 +46,65 @@ export default function Cart() {
         
       }
     }
+    
     fechCart()
 
-  },[])
+  },[setProducts])
+   
 
   const handleBackToShopping = () => {
     navigate("/");
   };
 
-  // const removeItem = (itemId) => {
-  //   const updatedCart = cart.filter((item) => item.id !== itemId);
-  //   setCart(updatedCart);
+
+  // handle product quntity
+
+  // Function to increase quantity of a product in the cart
+  // const qtyplus = async (itemId) => {
+  //   const payload = {operation:"add"}
+  //   try{
+  //     const response = await Axios.put(`/api/users/${id}/cart/quantity/${itemId}`,payload) 
+     
+  //     console.log(response)
+  //     if(response.status === 200){
+  //      return fechCart();
+  //     }
+  //   }
+  //   catch(error){
+  //     console.log(error)
+  //   }
+  // };
+// Fuction to decrement quntity of poroducnt in the cart
+
+  // const qtyminus = async (itemId) => {
+ 
+    
+  //   const payload = {operation:"substract"}
+  //   try{
+  //     const response = await Axios.put(`/api/users/${id}/cart/quantity/${itemId}`,payload)
+  //     if(response.status === 200){
+  //      return fechCart();
+  //     }
+  //   }
+  //   catch(error){
+  //     console.log(error)
+  //   }
   // };
 
-  const increaseCount = (id) => {
-    let increCount = products.quantity + 1
-    // const updateCount = cart.map((item) => {
-    //   if (item.id === id) {
-    //     return { ...item, quantity: item.quantity + 1 };
-    //   }
-    //   return item;
-    // });
-    // setCart(updateCount);
-  };
-
-  const decreaseCount = () => {
-    var decreCount = products.quantity  - 1
-    // const updateCount = cart.map((item) => {
-    //   if (item.id === id && item.quantity > 1) {
-    //     return { ...item, quantity: item.quantity - 1 };
-    //   }
-    //   return item;
-    // });
-    // setCart(updateCount);
-  };
+  const handleQuantity = async (cartID, quantityChange) => {
+    const data = { id: cartID, quantityChange };
+    try {
+       await Axios.put(`/api/users/${id}/cart`, data);
+       const response = await Axios.get(`/api/users/${id}/cart`);
+       setProducts(response.data.data);
+    } catch (error) {
+       toast.error("this is an err");
+    }
+ };
 
   return (
     <>
-    <Navebar size={products.length}  />
+    <Navebar size={cartCount}  />
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <MDBContainer className="h-100 py-5 cart-contain">
         <MDBRow className="justify-content-center align-items-center h-100 cart-contain">
@@ -90,17 +120,18 @@ export default function Cart() {
                       Your products
                     </MDBTypography>
 
-                    {products.map((item) => (
+                    {products && products.map((item) => (
+                      
                       <div
                         className="d-flex align-items-center mb-5"
                         key={item._id}
                       >
                         <div className="flex-shrink-0">
                           <MDBCardImage
-                            src={item.image}
+                            src={item.productsId.image}
                             fluid
                             style={{ width: "150px" }}
-                            alt={item.name}
+                            alt={item.productsId.title}
                           />
                         </div>
 
@@ -114,7 +145,7 @@ export default function Cart() {
                           </a>
                           
                           <MDBTypography tag="h5" className="text-primary">
-                            {item.name}
+                            {item.productsId.title}
                           </MDBTypography>
                           <MDBTypography tag="h6" style={{ color: "#9e9e9e" }}>
                             
@@ -122,7 +153,7 @@ export default function Cart() {
 
                           <div className="d-flex align-items-center">
                             <p className="fw-bold mb-0 me-5 pe-3">
-                              {item.price }$
+                              {item.productsId.price}$
                             </p>
                             <div
                               className="d-flex align-items-start bg-light mb-3"
@@ -132,16 +163,16 @@ export default function Cart() {
 
                               <MDBBtn
                                 style={{ border: "1px" }}
-                                className="minus mx-2 "
-                                onClick={ decreaseCount}
+                                className="minus mx-3 "
+                                onClick={() => handleQuantity(item._id, -1)}
                               >
                                 <MDBIcon fas icon="minus" />
                               </MDBBtn>
-                              <span>{decreCount} </span>
+                             <span className="me-4">{item.quantity}</span>
                               <MDBBtn
                                 className="plus"
                                 style={{ border: "1px" }}
-                                onClick={() => increaseCount(item._id)}
+                               onClick={() => handleQuantity(item._id, 1)}
                               >
                                 <MDBIcon fas icon="plus" />
                               </MDBBtn>
@@ -162,7 +193,7 @@ export default function Cart() {
                             style={{ width: "100px" }}
                             className="fw-bold mx-5 "
                           >
-                            {item.price * item.quantity}  Items
+                            {item.productsId.price * item.quantity}  Items
                           </MDBTypography>
                         </div>
                       </div>
@@ -182,7 +213,7 @@ export default function Cart() {
                         style={{ position: "absolute", bottom: "0" }}
                       >
                         <MDBBtn
-                          onClick={() => naviga("/Pyment")}
+                          onClick={() => navigate("/Pyment")}
                           className=""
                           block
                           size="lg"

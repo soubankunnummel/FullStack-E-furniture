@@ -4,12 +4,9 @@ const productSchema = new mongoos.Schema({
     title : String,
     description: String,
     price: Number,
-    image: String,
+    image: String, 
     category: String,
-    quantity: {
-        type: Number,
-        default: 1, 
-    }
+  
    
 
 })

@@ -23,13 +23,13 @@ router
 .get("/products", tryCatchMiddleware(admin.allProducts))
 .get("/products/:id", tryCatchMiddleware(admin.productsById)) 
 .delete("/products/:id", tryCatchMiddleware(admin.deleteProduct))
-.put("/products/:id", tryCatchMiddleware(admin.updateProduct))
+.patch("/products/:id", tryCatchMiddleware(admin.updateProduct))
 .get("/orders",tryCatchMiddleware(admin.orderDtails))
 .get("/status",tryCatchMiddleware(admin.status))
 
 
 
-
+ 
 
 module.exports = router
 

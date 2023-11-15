@@ -169,7 +169,7 @@ module.exports = {
         message: "User not fount",
       });
     }
-  
+   
     const { producId } = req.body;
 
 
@@ -181,19 +181,95 @@ module.exports = {
     }
 
 
-    await User.updateOne({ _id: userId }, { $addToSet: { cart: producId } });
+    await User.updateOne({ _id: userId }, { $addToSet: { cart:{productsId:producId} } });
     res.status(200).send({
       status: "Succes",
       message: "Succes fully product added to cart",
     });
   },
 
+  // produc count handling 
+ 
+//   productQuantity:async(req,res)=>{
+
+//     const id = req.params.id;
+//     const itemId = req.params.itemId;
+
+//     console.log("userID",id,"produId",itemId);
+//     const {operation} = req.body;
+//    const user = await User.findOne({ _id: id, });
+
+// if(user){
+//   const item = user.cart.find((cartItem) => cartItem.productsId == itemId);
+//    console.log("item",item)
+//    const qty = item.quantity
+
+//    if(operation === "add"){
+//     await User.findOneAndUpdate(
+//          {
+//            "_id": id,
+//            "cart._id": itemId
+//          },
+//          {
+//            $inc: {
+//              "cart.$.quantity": 1 
+//            }
+//          },
+//        );
+//        return res.status(200).json({status:"Success",message:"quantity added successfully"})
+//      }
+     
+//      if(operation === "substract"){
+//       if(qty>1){
+//         await User.findOneAndUpdate(
+//           {
+//             "_id": id,
+//             "cart._id": itemId
+//           },
+//           {
+//             $inc: {
+//               "cart.$.quantity": -1 
+//             }
+//           },
+//         );
+//         return res.status(200).json({status:"Success",message:"quantity substracted successfully"})
+//       }
+// }
+// }
+// else{
+//   res.status(404).json({message:"user not found occured"})
+// }
+// },
+updateCartItemQuantity: async (req, res) => {
+  console.log(req.body)
+  const userID = req.params.id; 
+  const { id, quantityChange } = req.body;
+
+  const user = await User.findById(userID);
+  if (!user) { return res.status(404).json({ message: 'User not found' }) }
+
+  const cartItem = user.cart.id(id);
+  if (!cartItem) { return res.status(404).json({ message: 'Cart item not found' }) }
+
+  cartItem.quantity += quantityChange;
+
+  if (cartItem.quantity > 0) {
+    await user.save();
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Cart item quantity updated',
+    data: user.cart
+  });
+},
+
   /// view product from cart
 
   viewCartProdut: async (req, res) => {
-    // console.log(req.body)
     const userId = req.params.id;
     const user = await User.findById(userId);
+    console.log("--+",user)
     // console.log(user) 
     if (!user) {
       return res
@@ -208,13 +284,13 @@ module.exports = {
         .json({ status: "Succes", message: "User Cart is Emty", data: [] });
     }
 
-    const cartProducts = await product.find({ _id: { $in: cartProductIds } });
+    const cartProducts = await User.findOne({_id: userId}).populate("cart.productsId")
     res
       .status(200)
       .json({
         status: "Success",
         message: "Cart products fetched successfully",
-        data: cartProducts,
+        data: cartProducts.cart,
       });
     // console.log(product);
   },

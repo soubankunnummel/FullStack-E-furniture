@@ -5,12 +5,18 @@ const userSchema =  new mongoos.Schema({
     name:String,
     email:String,
     username:String,
-    password:String,
+    password:String, 
     phone:Number,
     gender:String,
     address:String,
     dob:Number,
-    cart: [{type:mongoos.Schema.ObjectId, ref:"Product"}],
+    cart: [
+        {
+            productsId:{type:mongoos.Schema.ObjectId, ref:"Product"},
+            quantity:{type:Number,default:1}
+            
+        }
+    ],
     wishlist:[{type:mongoos.Schema.ObjectId, ref:"Product"}],
     orders:[]
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useId, useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -13,22 +13,25 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem,
   MDBCollapse,
-} from "mdb-react-ui-kit";
+} from "mdb-react-ui-kit"; 
 // import { Products } from "./Products";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navebar.css";
 import { Productcontext } from "../Context";
+import { Axios } from "../App";
 
 export default function Navebar({ size }) {
   // const [serchTerm, setSerchTerm] = useState("");
   const [showBasic, setShowBasic] = useState(false);
   const navigat = useNavigate();
-  const { userName, setUerName, serchTerm, setSerchTerm, productss } =
-    useContext(Productcontext);
-  // const userName = login.filter((user) => user.id === login.id);
-  console.log(userName);
-
+  const { userName, setUerName, serchTerm, setSerchTerm, productss } = useContext(Productcontext);
+  // const [products, setProducts] = useState([])
+  const userId = localStorage.getItem("userId")
   let storUseName = localStorage.getItem("userName");
+  
+  const handleCart = (id) => {
+    navigat(`/cart/${id}`)
+  }
 
   const hanleLogOUt = () => {
     localStorage.removeItem("userId");
@@ -37,8 +40,21 @@ export default function Navebar({ size }) {
     navigat("/");
   };
   //     useEffect(() => {
+  //       const fechData = async () => {
+  //          try {
+  //         const response = await Axios.get("/api/users/products")
+  //         if(response.status === 200){
+  //           setProducts(response.data.data)
+  //         }
+  //       } catch (error) {
+  //         console.log(error);
+          
+  //       }
+  //       }
+  //       fechData()
 
-  // },[])
+
+  // },[setProducts])
   return (
     <>
       <MDBNavbar
@@ -191,14 +207,15 @@ export default function Navebar({ size }) {
               ""
             ) : (
               <>
-                <Link to={"/Cart"}>
+               
                   <MDBIcon
                     fcas
                     icon="cart-plus"
                     color="black"
                     className="mx-1"
+                    onClick={() => handleCart(userId)}
                   />
-                </Link>
+                
                 <span>{size} </span>
               </>
             )}

@@ -25,12 +25,14 @@ export default function Home() {
   const cartCount = localStorage.getItem("count")
 
   const handleViewProduct = (productId) => {
-    isUser ?  navigate(`/View/${productId}`):
-    toast.error("Please Loagin")
-
-   
+    if (isUser) {
+     
+      navigate(`/View/${productId}`);
+    } else {
+     
+      toast.error("Please Log in");
+    }
   };
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -60,7 +62,7 @@ export default function Home() {
         </h1>
         <MDBRow className="mt-5 my-5 card-row" id="allproducts">
           {products.map((product, index) => (
-            <MDBCol md="3" sm={2} key={index} style={{ marginBottom: 10 }}>
+            <MDBCol md="3" sm={2} key={index} style={{ marginBottom: 10 }}> 
               <MDBCard className=" hover-zoom  ">
                 <MDBCardImage
                   className=""

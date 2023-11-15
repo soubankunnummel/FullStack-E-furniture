@@ -7,7 +7,7 @@ import {
   MDBCardImage,
   MDBBtn,
   MDBRow,
-  MDBCol,
+  MDBCol, 
 } from "mdb-react-ui-kit";
 import { Productcontext } from "../Context";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ export default function AllProducts() {
           {products.map((product, index) => (
               <MDBCol md="3" key={index} style={{ marginBottom: 10 }}>
                 <MDBCard className=" hover-zoom  ">
-                  <MDBCardImage
+                  <MDBCardImage 
                     className=""
                     onClick={() => handleViewProduct(product.id)}
                     src={product.image}

@@ -8,7 +8,9 @@ import toast from "react-hot-toast";
 export default function ViewPoduct() {
   const navigate = useNavigate();
   // const { products, setProducts } = useContext(Productcontext);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]) 
+
+  // hanndle remove 
   const handleRemove = async (productId) => {
    
     try {
@@ -50,7 +52,7 @@ const handlEdit = async (productId) => {
       } 
     }
     fetchProducts()
-  },[])
+  },[setProducts])
 
   return (
     <>

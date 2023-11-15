@@ -50,7 +50,7 @@ import toast from 'react-hot-toast';
     e.preventDefault();
 
     try {
-      const response = await Axios.put(`/api/admin/products/${id}`, productData);
+      const response = await Axios.patch(`/api/admin/products/${id}`, productData); 
       if (response.status === 200) {
         // Update the local state with the edited product
         const updatedProducts = products.map((product) =>
