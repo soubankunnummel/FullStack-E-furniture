@@ -33,6 +33,10 @@ export default function Navebar({ size }) {
     navigat(`/cart/${id}`)
   }
 
+  const handleWishList = (useId)  => {
+    navigat(`/wishList/${useId}`)
+  }
+
   const hanleLogOUt = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
@@ -219,6 +223,9 @@ export default function Navebar({ size }) {
                 <span>{size} </span>
               </>
             )}
+            TODO: add user id here
+                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => handleWishList(useId) } />
+
           </MDBCollapse>
         </MDBContainer>
       </MDBNavbar>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -8,6 +8,7 @@ import {
   MDBBtn,
   MDBRow,
   MDBCol,
+  MDBIcon,
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
@@ -15,9 +16,11 @@ import Banner from "../componets/Banner";
 import Navebar from "../componets/Navebar";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
+import { Productcontext } from "../Context";
 
 
 export default function Home() {
+  const {addToWishlist} = useContext(Productcontext)
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]); 
@@ -26,13 +29,13 @@ export default function Home() {
 
   const handleViewProduct = (productId) => {
     if (isUser) {
-     
-      navigate(`/View/${productId}`);
+     navigate(`/View/${productId}`);
     } else {
-     
       toast.error("Please Log in");
     }
   };
+
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -43,6 +46,7 @@ export default function Home() {
 
       } catch (error) {
         console.log(error);
+        toast.error(error);
       }
     };
 
@@ -69,15 +73,27 @@ export default function Home() {
                   onClick={() => handleViewProduct(product._id)}
                   src={product.image}
                   position="top"
-                  alt="..."
+                  alt="..." 
                 />
-                <MDBCardBody>
+                <MDBCardBody className="d-flex justify-content-evenly">
+                  <div>
+
                   <MDBCardTitle>{product.title} </MDBCardTitle>
                   <MDBCardText>{product.description}</MDBCardText>
                   <MDBCardTitle>${product.price} </MDBCardTitle>
                   <MDBBtn onClick={() => handleViewProduct(product._id)}>
                     View
                   </MDBBtn>
+
+                  </div>
+                  <div>
+                  <MDBIcon style={{marginLeft:80, fontSize:25,}} far icon="heart" 
+                  onClick={() => 
+                    isUser ? addToWishlist(product._id): toast.error("Pleas login")
+                  } />
+                  </div>
+                 
+                 
                 </MDBCardBody>
               </MDBCard>
             </MDBCol>

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Await, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Productcontext } from "./Context";
 
@@ -41,6 +41,7 @@ import Outdor from "./componets/Outdor";
 import Bathroom from "./componets/Bathroom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import WishList from "./pages/WishList";
 
 export const Axios = axios.create({
   baseURL : process.env.REACT_APP_BASE_URL,
@@ -57,6 +58,7 @@ function App() {
   const handlClick = (item) => {
     console.log(item);
   };
+  const userId = localStorage.getItem("userId")
   const [itemCount, setItemCount] = useState([]);
   const [productss,setProductss] = useState(Products)
   const [BedroomProductss] = useState(BedroomProducts)
@@ -75,6 +77,44 @@ function App() {
   const [products, setProducts] = useState([])
   const [userName, setUerName] = useState([]);
   const [cartCount, setCartCount] = useState([])
+  const [wishLit ,setWishlist] = useState([])
+
+  
+
+  const fetchWishList = () => {
+
+    useEffect(() => {
+  
+      const fetchData = async () => {
+        try {
+          const response = await Axios.get(`/api/users/${userId}/wishlist`)
+          if(response.status === 200){
+            setWishlist(response.data.data)
+          }
+          
+        } catch (error) {
+          console.log(error)
+          
+        }
+      }
+      fetchData()
+    },[])
+  }
+
+
+  const addToWishlist = async (productId) => {
+   
+    try {
+      await Axios.post(`/api/users/${userId}/wishlists`,{productId})
+      const response = await Axios.get(`api/users/${userId}/wishlists`)
+      if(response.status === 200){
+        toast.success("Added to wishlist")
+        setWishlist(response.data.data)
+      }
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  }
   
 
 
@@ -105,7 +145,8 @@ function App() {
           users,
           products,
           setProducts,cartCount, setCartCount,
-          userName, setUerName,
+          userName, setUerName,wishLit ,setWishlist,addToWishlist,
+          fetchWishList
 
         }}
         
@@ -140,6 +181,7 @@ function App() {
           <Route path="/work" element={<Works/>}/>
           <Route path="/Outdor" element={<Outdor/>}/>
           <Route path="/Bath" element={<Bathroom/>}/>
+          <Route path="/wishList/:id" element={<WishList/>} />
         
 
 

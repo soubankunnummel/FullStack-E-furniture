@@ -19,6 +19,7 @@ router
 .get("/:id/cart",tryCatchMiddleware(userController.viewCartProdut))
 // .put("/:id/cart/quantity/:itemId",tryCatchMiddleware(userController.productQuantity))
 .put('/:id/cart', tryCatchMiddleware(userController.updateCartItemQuantity))
+.delete("/:id/cart/:itemId",tryCatchMiddleware(userController.removeCartProduct))
 
 
 .post("/:id/wishlists",tryCatchMiddleware(userController.addToWishlist))

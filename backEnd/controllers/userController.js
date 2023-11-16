@@ -181,7 +181,8 @@ module.exports = {
     }
 
 
-    await User.updateOne({ _id: userId }, { $addToSet: { cart:{productsId:producId} } });
+   await User.updateOne({ _id: userId }, { $addToSet: { cart:{productsId:producId} } });
+    
     res.status(200).send({
       status: "Succes",
       message: "Succes fully product added to cart",
@@ -269,7 +270,7 @@ updateCartItemQuantity: async (req, res) => {
   viewCartProdut: async (req, res) => {
     const userId = req.params.id;
     const user = await User.findById(userId);
-    console.log("--+",user)
+
     // console.log(user) 
     if (!user) {
       return res
@@ -294,7 +295,35 @@ updateCartItemQuantity: async (req, res) => {
       });
     // console.log(product);
   },
+  // remove produt from the cart
 
+  removeCartProduct : async  (req, res) => {
+    
+    const userId = req.params.id
+    const itemId = req.params.itemId
+    console.log("itemId" ,itemId)
+    if(!itemId){
+      return res.status(404).json({message:"Product Not fount"})
+    }
+
+    const user = await User.findById(userId)
+    if(!user){
+      res.status(404).json({message:"User not fount"})
+    }
+    const result = await User.updateOne(
+      { _id: userId },
+      { $pull: { cart: { productsId:itemId } } }
+    );
+  
+    if (result.nModified > 0) {
+      console.log("Item removed successfully");
+      res.status(200).json({message:"Product removed successfuly",data: result})
+    } else {
+      console.log("Item not found in the cart");
+    }
+
+
+  },
   /// Add product to wish list.
 
   addToWishlist: async (req, res) => {
@@ -306,6 +335,7 @@ updateCartItemQuantity: async (req, res) => {
     }
 
     const { productId } = req.body;
+    console.log(productId)
     const prod = await product.findById(productId);
     if (!prod) {
       return res

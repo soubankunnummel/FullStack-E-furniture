@@ -21,6 +21,7 @@ export default function Cart({}) {
   // const { cart, setCart, itemCount } = useContext(Productcontext);
   const {cartCount, setCartCount} = useContext(Productcontext)
   const [products, setProducts] = useState([])
+  console.log(products)
   const {id} = useParams()
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId")
@@ -34,7 +35,6 @@ export default function Cart({}) {
 
     // feching cart products
 
-  useEffect(() => { 
     const fechCart = async () => {
       try {
         const response = await Axios.get(`/api/users/${userId}/cart`)
@@ -47,9 +47,10 @@ export default function Cart({}) {
       }
     }
     
-    fechCart()
+    useEffect(() => { 
+      fechCart()
 
-  },[setProducts])
+  },[])
    
 
   const handleBackToShopping = () => {
@@ -96,11 +97,32 @@ export default function Cart({}) {
     try {
        await Axios.put(`/api/users/${id}/cart`, data);
        const response = await Axios.get(`/api/users/${id}/cart`);
-       setProducts(response.data.data);
+       if(response.status === 200){
+        return fechCart()
+       }
     } catch (error) {
        toast.error("this is an err");
     }
  };
+
+ // handle produt remove 
+
+ 
+ const handleRemoveItem = async (itemId) => {
+  try {
+     
+     const response = await Axios.delete(`/api/users/${id}/cart/${itemId}`);
+     console.log(response)
+    if (response.status === 200) {
+       fechCart()
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error('Error removing product from the cart');
+  }
+};
+
+
 
   return (
     <>
@@ -137,9 +159,9 @@ export default function Cart({}) {
 
                         <div className="flex-grow-1 ms-3">
                           <a
-                            href="#!"
+                            href=""
                             className="float-end text-black"
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => handleRemoveItem(item.productsId._id)}
                           >
                             <MDBIcon far icon="trash-alt" />
                           </a>
