@@ -62,21 +62,43 @@ export default function View() {
       
     } catch (error) {
       console.error('Error adding product to the cart:', error);
-      toast.error('Failed to add product to the cart. Please try again.')
+      toast.error(error.response.data.message)
     }
   };
-  
-  const handleBuyNow =  (id) => {
-   
-    if (userId === "") {
-      toast.error("Please login");
-      navigate("/Login");
-    }else{
-      // navigate(`/Cart/${id}`);
-      
-    }
 
-  };
+//   const doPayment = async () => {
+//   try {
+//     const response = await Axios.post(`/api/users/${id}/payment`);
+//     if (response.status === 200) {
+//       handleBuyNow(response.data.data);
+//     } else {
+//       // Handle other response statuses (e.g., show an error message)
+//       console.error('Payment initiation failed:', response.data.message);
+//     }
+//   } catch (error) {
+//     // Handle network errors or other exceptions
+//     console.error('Error initiating payment:', error.message);
+//   }
+// };
+
+// useEffect(() => {
+//   doPayment();
+// }, []);
+
+const handleChekout = async () => {
+  try {
+    const response = await Axios.post(`/api/users/${userId}/payment`);
+    if(response.status === 200){
+      const url = response.data.url
+      const confermation = window.confirm("Payment session created. Redirecting to the payment gateway. Continue?")
+      if(confermation) window.location.replace(url)
+    }
+  } catch (error) {
+    toast.error(error.response.data.message)
+    
+  }
+};
+
  
 
 
@@ -108,7 +130,7 @@ export default function View() {
                 >
                   Add to Cart
                 </MDBBtn>
-                <MDBBtn color="success" onClick={handleBuyNow(product._id)}>
+                <MDBBtn color="success" onClick={() => handleChekout(product._id)}>
                   Buy Now
                 </MDBBtn>
               </MDBCardBody>

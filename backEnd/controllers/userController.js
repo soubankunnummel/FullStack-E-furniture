@@ -165,29 +165,41 @@ module.exports = {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).send({
-        status: "Failear",
-        message: "User not fount",
+        status: "Failure",
+        message: "User not found",
       });
     }
-   
+  
     const { producId } = req.body;
-
-
+  
     if (!producId) {
       return res.status(404).send({
-        status: "Failear",
-        message: "Product not fount ☹️",
+        status: "Failure",
+        message: "Product not found ☹️",
       });
     }
-
-
-   await User.updateOne({ _id: userId }, { $addToSet: { cart:{productsId:producId} } });
-    
+  
+    // Check if the product is already in the cart
+    const isProductInCart = user.cart.some(item => item.productsId.equals(producId));
+  
+    if (isProductInCart) {
+      return res.status(400).send({
+        status: "Failure",
+        message: "Product is already in the cart",
+      });
+    }
+  
+    await User.updateOne(
+      { _id: userId },
+      { $addToSet: { cart: { productsId: producId } } }
+    );
+  
     res.status(200).send({
-      status: "Succes",
-      message: "Succes fully product added to cart",
+      status: "Success",
+      message: "Successfully added product to cart",
     });
   },
+  
 
   // produc count handling 
  
@@ -391,36 +403,36 @@ updateCartItemQuantity: async (req, res) => {
   delete: async (req, res) => {
     const userId = req.params.id;
     const { productId } = req.body;
+   
+  
     if (!productId) {
-      return res.status(404).json({ message: "Product not Fount" });
+      return res.status(404).json({ message: "Product not Found" });
     }
-
+  
     const user = await User.findById(userId);
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: "Failear", message: "User Not Found" });
+      return res.status(404).json({ status: "Failure", message: "User Not Found" });
     }
-
-    // const wishProId = user.wishlistl
-    console.log(productId);
+  
     await User.updateOne({ _id: userId }, { $pull: { wishlist: productId } });
-    res.status(200).json({ status: "Successfully removed from wishlist" });
+    res.status(200).json({ message: "Successfully removed from wishlist" });
   },
+  
 
   // Paymets
 
   payment: async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.params.id; 
+    console.log("called")
     // uid = userId  //  for parsing globel vareable
-    const user = await User.findOne({ _id: userId }).populate("cart");
+    const user = await User.findOne({ _id: userId }).populate("cart.productsId");
 
     if (!user) {
       return res.status(404).json({ message: "User Not found" });
     }
 
     const cartProdcts = user.cart;
-    // console.log(cartProdcts);
+    // console.log(cartProdcts);   
     if (cartProdcts.length === 0) {
       return res
         .status(200)
@@ -428,16 +440,18 @@ updateCartItemQuantity: async (req, res) => {
     }
 
     const lineItems = cartProdcts.map((item) => {
+      console.log("Item price:", item.productsId.price);
       return {
         price_data: {
           currency: "inr",
           product_data: {
-            name: item.title,
-            description: item.description,
+            images:[item.productsId.image],
+            name: item.productsId.title,
+            // description: item.description,
           },
-          unit_amount: Math.round(item.price * 100),
+          unit_amount: Math.round(item.productsId.price * 100),
         },
-        quantity: 1,
+        quantity: item.quantity,
       };
     });
 
@@ -445,8 +459,8 @@ updateCartItemQuantity: async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:3000/api/users/payment/success`, // Replace with your success URL
-      cancel_url: "http://localhost:3000/api/users/payment/cancel", // Replace with your cancel URL
+      success_url: `http://localhost:3000/payment/success`, // Replace with your success URL
+      cancel_url: "http://localhost:3000/payment/cancel", // Replace with your cancel URL
     });
 
     // console.log("Stripe Session:", session);

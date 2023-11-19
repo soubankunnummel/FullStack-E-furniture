@@ -42,6 +42,7 @@ import Bathroom from "./componets/Bathroom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import WishList from "./pages/WishList";
+import SuccessPayment from "./componets/Success";
 
 export const Axios = axios.create({
   baseURL : process.env.REACT_APP_BASE_URL,
@@ -78,7 +79,7 @@ function App() {
   const [userName, setUerName] = useState([]);
   const [cartCount, setCartCount] = useState([])
   const [wishLit ,setWishlist] = useState([])
-
+  const [wishStatus, setWishStatus] = useState(false)
   
 
   const fetchWishList = () => {
@@ -90,6 +91,7 @@ function App() {
           const response = await Axios.get(`/api/users/${userId}/wishlist`)
           if(response.status === 200){
             setWishlist(response.data.data)
+            setWishStatus(true)
           }
           
         } catch (error) {
@@ -110,6 +112,7 @@ function App() {
       if(response.status === 200){
         toast.success("Added to wishlist")
         setWishlist(response.data.data)
+
       }
     } catch (error) {
       toast.error(error.response.data.message)
@@ -146,7 +149,7 @@ function App() {
           products,
           setProducts,cartCount, setCartCount,
           userName, setUerName,wishLit ,setWishlist,addToWishlist,
-          fetchWishList
+          fetchWishList,wishStatus, setWishStatus
 
         }}
         
@@ -182,6 +185,7 @@ function App() {
           <Route path="/Outdor" element={<Outdor/>}/>
           <Route path="/Bath" element={<Bathroom/>}/>
           <Route path="/wishList/:id" element={<WishList/>} />
+          <Route path="/payment/success" element={<SuccessPayment/>}/>
         
 
 

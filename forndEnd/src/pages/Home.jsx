@@ -20,7 +20,7 @@ import { Productcontext } from "../Context";
 
 
 export default function Home() {
-  const {addToWishlist} = useContext(Productcontext)
+  const {addToWishlist,wishStatus} = useContext(Productcontext)
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]); 
@@ -86,8 +86,10 @@ export default function Home() {
                   </MDBBtn>
 
                   </div>
+                  
                   <div>
                   <MDBIcon style={{marginLeft:80, fontSize:25,}} far icon="heart" 
+                  
                   onClick={() => 
                     isUser ? addToWishlist(product._id): toast.error("Pleas login")
                   } />

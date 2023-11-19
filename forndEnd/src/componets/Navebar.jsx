@@ -223,8 +223,8 @@ export default function Navebar({ size }) {
                 <span>{size} </span>
               </>
             )}
-            TODO: add user id here
-                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => handleWishList(useId) } />
+        
+                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => handleWishList(userId) } />
 
           </MDBCollapse>
         </MDBContainer>
