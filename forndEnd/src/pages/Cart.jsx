@@ -114,7 +114,7 @@ export default function Cart({}) {
      const response = await Axios.delete(`/api/users/${id}/cart/${itemId}`);
      console.log(response)
     if (response.status === 200) {
-       fechCart()
+        fechCart()
     }
   } catch (error) {
     console.error(error);

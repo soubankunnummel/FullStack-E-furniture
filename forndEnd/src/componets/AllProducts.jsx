@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -8,22 +8,41 @@ import {
   MDBBtn,
   MDBRow,
   MDBCol, 
-} from "mdb-react-ui-kit";
+} from "mdb-react-ui-kit"; 
 import { Productcontext } from "../Context";
 import { useNavigate } from "react-router-dom";
 import Navebar from "./Navebar";
+import { Axios } from "../App";
 
 
 
 export default function AllProducts() {
+  
+  const [products, setProducts] = useState([])
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await Axios.get("/api/users/products");
+        if (response.status === 200) {
+          setProducts(response.data.data);
+        } 
+
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   
   const handleViewProduct = (productId) => {
     navigate(`/View/${productId}`);
   };
 
-  const { products } = useContext(Productcontext);
+  // const { products } = useContext(Productcontext);
 
   return (
     <>
