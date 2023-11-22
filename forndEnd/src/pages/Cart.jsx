@@ -158,13 +158,13 @@ export default function Cart({}) {
                         </div>
 
                         <div className="flex-grow-1 ms-3">
-                          <a
+                          <span
                             href=""
                             className="float-end text-black"
                             onClick={() => handleRemoveItem(item.productsId._id)}
                           >
                             <MDBIcon far icon="trash-alt" />
-                          </a>
+                          </span>
                           
                           <MDBTypography tag="h5" className="text-primary">
                             {item.productsId.title}
