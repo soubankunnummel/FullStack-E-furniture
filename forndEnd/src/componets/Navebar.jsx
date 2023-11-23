@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useId, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -19,23 +19,36 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navebar.css";
 import { Productcontext } from "../Context";
 import { Axios } from "../App";
+import toast from "react-hot-toast";
 
-export default function Navebar({ size }) {
-  // const [serchTerm, setSerchTerm] = useState("");
+export default function   Navebar({ size }) {
+  const [serchTerm, setSerchTerm] = useState("");
+  const [products, setProducts] = useState([])
   const [showBasic, setShowBasic] = useState(false);
   const navigat = useNavigate();
-  const { userName, setUerName, serchTerm, setSerchTerm, productss } = useContext(Productcontext);
-  // const [products, setProducts] = useState([])
+  const { fetchCartCount , count} = useContext(Productcontext);
   const userId = localStorage.getItem("userId")
   let storUseName = localStorage.getItem("userName");
   
-  const handleCart = (id) => {
-    navigat(`/cart/${id}`)
-  }
+  
+  fetchCartCount()
 
-  const handleWishList = (useId)  => {
-    navigat(`/wishList/${useId}`)
-  }
+  useEffect(() => {
+    const fechData = async () => {
+      try {
+        const response = await Axios.get("/api/users/allProducts")
+        if(response.status === 200){
+          setProducts(response.data.data)
+        }
+      } catch (error) {
+        toast.error(error.response.data.message)
+        
+      }
+    }
+    fechData()
+  },[setSerchTerm])
+
+  // handle log out
 
   const hanleLogOUt = () => {
     localStorage.removeItem("userId");
@@ -43,22 +56,6 @@ export default function Navebar({ size }) {
     storUseName = null;
     navigat("/");
   };
-  //     useEffect(() => {
-  //       const fechData = async () => {
-  //          try {
-  //         const response = await Axios.get("/api/users/products")
-  //         if(response.status === 200){
-  //           setProducts(response.data.data)
-  //         }
-  //       } catch (error) {
-  //         console.log(error);
-          
-  //       }
-  //       }
-  //       fechData()
-
-
-  // },[setProducts])
   return (
     <>
       <MDBNavbar
@@ -145,28 +142,28 @@ export default function Navebar({ size }) {
             {serchTerm ? (
               <>
                 <div className="search-results">
-                  {productss
+                  {products
                     .filter((val) => {
                       if (serchTerm === "") {
                         return true; // Include all items when the search term is empty
                       } else if (
-                        val.name.toLowerCase().includes(serchTerm.toLowerCase())
+                        val.title.toLowerCase().includes(serchTerm.toLowerCase())
                       ) {
                         return true; // Include items that match the search term
                       }
                       return false; // Exclude items that don't match the search term
                     })
                     .map((item) => (
-                      <div className="search-result-item" key={item.id}>
+                      <div className="search-result-item" key={item._id}>
                         <hr />
                         <p
                           onClick={() => {
-                            navigat(`/View/${item.id}`);
+                            navigat(`/View/${item._id}`);
                             setSerchTerm("");
                           }}
                           className="sech-result"
                         >
-                          {item.name}
+                          {item.title}
                         </p>
                       </div>
                     ))}
@@ -217,14 +214,14 @@ export default function Navebar({ size }) {
                     icon="cart-plus"
                     color="black"
                     className="mx-1"
-                    onClick={() => handleCart(userId)}
+                    onClick={() => navigat(`/cart/${userId}`) }
                   />
                 
-                <span>{size} </span>
+                <span>{count} </span>
               </>
             )}
         
-                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => handleWishList(userId) } />
+                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => navigat(`/wishList/${userId}`) } />
 
           </MDBCollapse>
         </MDBContainer>

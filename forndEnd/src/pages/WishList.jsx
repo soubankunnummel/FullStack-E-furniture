@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Productcontext } from "../Context";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
+import Navebar from "../componets/Navebar";
 
 export default function Wishlist() {
     const userId = localStorage.getItem("userId")
@@ -56,6 +57,7 @@ export default function Wishlist() {
 
    return (
       <>
+      <Navebar/>
         <section className="products d-flex flex-column align-items-center mb-5" style={{ paddingTop: "80px" }}>
   <h1 className="mt-5 text-black fw-bolder">
     <span>My</span> Wishlist

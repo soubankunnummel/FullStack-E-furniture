@@ -9,6 +9,7 @@ import {
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 // import { Productcontext } from "../Context";
 
 export default function Register() {
@@ -34,7 +35,7 @@ export default function Register() {
         "http://localhost:7000/api/users/register",payload);
         console.log(respons)
         if (respons.status === 201) {
-          alert("Registratoin success full")
+          toast.success("Registratoin success full")
           navigate("/login");
 
         }

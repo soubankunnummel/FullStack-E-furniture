@@ -31,7 +31,7 @@ export default function Home() {
     if (isUser) {
      navigate(`/View/${productId}`);
     } else {
-      toast.error("Please Log in");
+      toast.error("Please Login");
     }
   };
 
@@ -45,8 +45,8 @@ export default function Home() {
         } 
 
       } catch (error) {
-        console.log(error);
-        toast.error(error);
+        // console.log(error);
+        toast.error(error.response.data.message);
       }
     };
 

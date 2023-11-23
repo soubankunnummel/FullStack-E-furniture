@@ -77,10 +77,12 @@ function App() {
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
   const [userName, setUerName] = useState([]);
-  const [cartCount, setCartCount] = useState([])
+  const [cartCount, setCartCount] = useState("")
   const [wishLit ,setWishlist] = useState([])
   const [wishStatus, setWishStatus] = useState(false)
-  
+  const count  = cartCount.length
+  console.log(count)
+  // wishList fetching
 
   const fetchWishList = () => {
 
@@ -103,6 +105,7 @@ function App() {
     },[])
   }
 
+  // add to wishlit
 
   const addToWishlist = async (productId) => {
    
@@ -119,6 +122,26 @@ function App() {
     }
   }
   
+  // fetching cart producnts 
+
+  const fetchCartCount = async () => {
+    useEffect(() => {
+      const fetchDatas = async () => {
+        try {
+              const response = await Axios.get(`/api/users/${userId}/cart`)
+              if(response.status === 200){
+                setCartCount(response.data.data)
+              }
+            } catch (error) {
+              console.log(error)
+              
+            }
+       
+      }
+      fetchDatas()
+    },[])
+  }
+
 
 
   return (
@@ -149,7 +172,8 @@ function App() {
           products,
           setProducts,cartCount, setCartCount,
           userName, setUerName,wishLit ,setWishlist,addToWishlist,
-          fetchWishList,wishStatus, setWishStatus
+          fetchWishList,wishStatus, setWishStatus, fetchCartCount,
+          count
 
         }}
         

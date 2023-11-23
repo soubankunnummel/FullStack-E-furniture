@@ -21,7 +21,7 @@ router
 .get("/user/:id", tryCatchMiddleware(admin.useById))
 .post("/products",imageUplod, tryCatchMiddleware(admin.creatProduct))
 .get("/products", tryCatchMiddleware(admin.allProducts))
-.get("/products/:id", tryCatchMiddleware(admin.productsById)) 
+.get("/products/:id", tryCatchMiddleware(admin.productsById))
 .delete("/products/:id", tryCatchMiddleware(admin.deleteProduct))
 .patch("/products/:id", tryCatchMiddleware(admin.updateProduct))
 .get("/orders",tryCatchMiddleware(admin.orderDtails))

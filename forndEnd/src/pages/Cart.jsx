@@ -19,17 +19,13 @@ import toast from "react-hot-toast";
 
 export default function Cart({}) {
   // const { cart, setCart, itemCount } = useContext(Productcontext);
-  const {cartCount, setCartCount} = useContext(Productcontext)
+  // const { setCartCount} = useContext(Productcontext)
+  // const [count ,stCount ] = useState("")
   const [products, setProducts] = useState([])
-  console.log(products)
+
   const {id} = useParams()
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId")
-
-  
- useEffect(() => {
-  setCartCount(localStorage.setItem("count", products.length ))
- },[])
 
   
 
@@ -40,6 +36,7 @@ export default function Cart({}) {
         const response = await Axios.get(`/api/users/${userId}/cart`)
         if(response.status === 200){
           setProducts(response.data.data)
+         
         }
       } catch (error) {
         console.log(error)
@@ -53,45 +50,9 @@ export default function Cart({}) {
   },[])
    
 
-  const handleBackToShopping = () => {
-    navigate("/");
-  };
-
-
   // handle product quntity
 
-  // Function to increase quantity of a product in the cart
-  // const qtyplus = async (itemId) => {
-  //   const payload = {operation:"add"}
-  //   try{
-  //     const response = await Axios.put(`/api/users/${id}/cart/quantity/${itemId}`,payload) 
-     
-  //     console.log(response)
-  //     if(response.status === 200){
-  //      return fechCart();
-  //     }
-  //   }
-  //   catch(error){
-  //     console.log(error)
-  //   }
-  // };
-// Fuction to decrement quntity of poroducnt in the cart
-
-  // const qtyminus = async (itemId) => {
- 
-    
-  //   const payload = {operation:"substract"}
-  //   try{
-  //     const response = await Axios.put(`/api/users/${id}/cart/quantity/${itemId}`,payload)
-  //     if(response.status === 200){
-  //      return fechCart();
-  //     }
-  //   }
-  //   catch(error){
-  //     console.log(error)
-  //   }
-  // };
-
+  
   const handleQuantity = async (cartID, quantityChange) => {
     const data = { id: cartID, quantityChange };
     try {
@@ -114,7 +75,7 @@ export default function Cart({}) {
      const response = await Axios.delete(`/api/users/${id}/cart/${itemId}`);
      console.log(response)
     if (response.status === 200) {
-        fechCart()
+       return fechCart()
     }
   } catch (error) {
     console.error(error);
@@ -122,11 +83,28 @@ export default function Cart({}) {
   }
 };
 
+// handle chechout
+
+const handleChekout = async () => {
+  try {
+    const response = await Axios.post(`/api/users/${userId}/payment`);
+    if(response.status === 200){
+      const url = response.data.url
+      const confermation = window.confirm("Payment session created. Redirecting to the payment gateway. Continue?")
+      if(confermation) window.location.replace(url)
+    }
+  } catch (error) {
+    toast.error(error.response.data.message)
+    
+  }
+};
+
+// TODO: add by now function 
 
 
   return (
     <>
-    <Navebar size={cartCount}  />
+    <Navebar   />
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <MDBContainer className="h-100 py-5 cart-contain">
         <MDBRow className="justify-content-center align-items-center h-100 cart-contain">
@@ -158,13 +136,14 @@ export default function Cart({}) {
                         </div>
 
                         <div className="flex-grow-1 ms-3">
-                          <span
+                      
+                          <a
                             href=""
                             className="float-end text-black"
                             onClick={() => handleRemoveItem(item.productsId._id)}
                           >
                             <MDBIcon far icon="trash-alt" />
-                          </span>
+                          </a>
                           
                           <MDBTypography tag="h5" className="text-primary">
                             {item.productsId.title}
@@ -228,14 +207,14 @@ export default function Cart({}) {
                       className="mb-5 pt-2 text-center fw-bold text-uppercase"
                     ></MDBTypography>
 
-                    <form className="mb-5">
+                  
                       <MDBTypography
                         tag="h5"
                         className="fw-bold mb-5"
                         style={{ position: "absolute", bottom: "0" }}
                       >
                         <MDBBtn
-                          onClick={() => navigate("/Pyment")}
+                          onClick={() => handleChekout()}
                           className=""
                           block
                           size="lg"
@@ -246,7 +225,7 @@ export default function Cart({}) {
                         <a
                           href="#!"
                           className="m-2"
-                          onClick={handleBackToShopping}
+                          onClick={() =>  navigate("/") }
                         >
                           <MDBIcon
                             className="pt-4"
@@ -256,7 +235,7 @@ export default function Cart({}) {
                           Back to shopping
                         </a>
                       </MDBTypography>
-                    </form>
+               
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>

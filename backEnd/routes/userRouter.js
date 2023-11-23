@@ -15,7 +15,7 @@ router
 .get("/products/:id", tryCatchMiddleware(userController.productById))
 .get("/products/category/:categoryname", tryCatchMiddleware(userController.productByCatogery))
 
-.post("/:id/cart",tryCatchMiddleware(userController.addToCart))
+.post("/:id/cart",tryCatchMiddleware(userController.addToCart)) 
 .get("/:id/cart",tryCatchMiddleware(userController.viewCartProdut))
 // .put("/:id/cart/quantity/:itemId",tryCatchMiddleware(userController.productQuantity))
 .put('/:id/cart', tryCatchMiddleware(userController.updateCartItemQuantity))

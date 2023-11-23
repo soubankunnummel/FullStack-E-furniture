@@ -57,7 +57,7 @@ export default function Login(props) {
             localStorage.removeItem("jwt");
             localStorage.removeItem("userId");
             localStorage.removeItem("userName");
-          }, 360000);
+          }, 3600000);
           navigate("/");
           toast.success("Login Successful");
         
@@ -127,17 +127,11 @@ export default function Login(props) {
                     Login
                   </MDBBtn>
                 </form>
-                <p className="small mb-5 pb-lg-3 ms-5">
-                  <a className="text-muted" href="#!">
-                    Forgot password?
-                  </a>
-                </p>
-                <p className="ms-5 ">
-                  Don't have an account?{" "}
-                  <a href="#!" className="link-info" onClick={()=> navigat('/Register')}>
+              
+                <p>  Don't have an account?  <a href="#!" className="link-info" onClick={()=> navigat('/Register')}>
                     Register here
-                  </a>
-                </p>
+                  </a> </p>
+                
               </div>
             </MDBCol>
 

@@ -164,7 +164,7 @@ module.exports = {
     console.log(userId);
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).send({
+      return res.status(404).json({
         status: "Failure",
         message: "User not found",
       });
@@ -173,7 +173,7 @@ module.exports = {
     const { producId } = req.body;
   
     if (!producId) {
-      return res.status(404).send({
+      return res.status(404).json({
         status: "Failure",
         message: "Product not found ☹️",
       });
@@ -423,7 +423,7 @@ updateCartItemQuantity: async (req, res) => {
 
   payment: async (req, res) => {
     const userId = req.params.id; 
-    console.log("called")
+  
     // uid = userId  //  for parsing globel vareable
     const user = await User.findOne({ _id: userId }).populate("cart.productsId");
 
@@ -455,6 +455,9 @@ updateCartItemQuantity: async (req, res) => {
       };
     });
 
+    const totalAmount = lineItems.reduce((total, item) => total + item.price_data.unit_amount * item.quantity, 0);
+  console.log("Total Amount:", totalAmount);
+  
     session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,

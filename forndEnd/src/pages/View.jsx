@@ -17,15 +17,15 @@ import { Axios } from "../App";
 import toast from "react-hot-toast";
 
 export default function View() {
-  // const {  cart, setCart, userName } = useContext(Productcontext);
+  const {  fetchCartCount } = useContext(Productcontext);
   const [product, setProduct] = useState([])
   
   const { id } = useParams();
   const userId = localStorage.getItem("userId")
   const navigate = useNavigate(); 
-
-  let cartCount =  localStorage.getItem("count")
-
+ 
+  
+  
   
   useEffect(() => {
     const fechProduct = async () => {
@@ -48,16 +48,15 @@ export default function View() {
   
   // add to cart
 
+
  
   const handleAddToCart = async () => {
     try {
-      const response = await Axios.post( `/api/users/${userId}/cart`,{
-        producId: id 
-      })
+      const response = await Axios.post( `/api/users/${userId}/cart`,{producId: id })
+     
       if (response.status === 200){
-        
         toast.success("Product added to the cart!")
-
+       
       }
       
     } catch (error) {
@@ -66,24 +65,6 @@ export default function View() {
     }
   };
 
-//   const doPayment = async () => {
-//   try {
-//     const response = await Axios.post(`/api/users/${id}/payment`);
-//     if (response.status === 200) {
-//       handleBuyNow(response.data.data);
-//     } else {
-//       // Handle other response statuses (e.g., show an error message)
-//       console.error('Payment initiation failed:', response.data.message);
-//     }
-//   } catch (error) {
-//     // Handle network errors or other exceptions
-//     console.error('Error initiating payment:', error.message);
-//   }
-// };
-
-// useEffect(() => {
-//   doPayment();
-// }, []);
 
 const handleChekout = async () => {
   try {
@@ -105,7 +86,7 @@ const handleChekout = async () => {
 
   return (
     <>
-      <Navebar size={cartCount}  />
+      <Navebar  />
     <div className="container mt-5">
       
         <MDBRow key={product._id} className="view-card">
@@ -117,7 +98,7 @@ const handleChekout = async () => {
           <MDBCol md="6">
             <MDBCard>
               <MDBCardBody>
-                <MDBCardTitle>{product.name}</MDBCardTitle>
+                <MDBCardTitle>{product.title}</MDBCardTitle>
                 <MDBCardText>{product.description}</MDBCardText>
                 <MDBCardText>
                   <strong>Price:</strong> ₹{product.price}
