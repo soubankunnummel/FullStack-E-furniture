@@ -79,7 +79,7 @@ export default function Home() {
                   <div>
 
                   <MDBCardTitle>{product.title} </MDBCardTitle>
-                  <MDBCardText>{product.description}</MDBCardText>
+                  <MDBCardText><span></span> </MDBCardText>
                   <MDBCardTitle>${product.price} </MDBCardTitle>
                   <MDBBtn onClick={() => handleViewProduct(product._id)}>
                     View

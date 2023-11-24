@@ -4,26 +4,39 @@ import { Productcontext } from '../../Context';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Axios } from '../../App';
+import AdmiNav from './AdmiNav';
 
 export default function ViewMoreDetail() {
   const { id } = useParams();
 
   // const { users } = useContext(Productcontext);
  const [users, setUsers] = useState([])
+ const [userMore, setUserMore] = useState([])
  console.log(users)
- const [loading, setLoading] = useState(true)
-  // Find the user by id
-  // const user = users.filter((user) => user._id === id);
-  // console.log(user)
+ console.log(userMore)
 
+ const [loading, setLoading] = useState(true)
+  
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+          const response = await Axios.get(`/api/admin/${id}/order`)
+          if(response.status === 200){
+            setUserMore(response.data.data)
+          }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchOrder()
+  },[])
   useEffect(() => {
     const fetchUser = async () => {
       try {
-         
-
         const response = await Axios.get(`/api/admin/user/${id}`);
         if (response.status === 200) {
-          setUsers(response.data.data);
+          setUsers(response.data.data.user);
+          
         }
       } catch (error) {
         console.error('Error fetching user:', error);
@@ -46,14 +59,19 @@ export default function ViewMoreDetail() {
 
 
   return (
+    <>
+    <AdmiNav/>
+      
+      {console.log(users.username)}
     <MDBContainer className='mt-5'>
-      <div className='d-flex align-items-center'>
+
+        <div className='d-flex align-items-center'>
         <img
           src='https://mdbootstrap.com/img/new/avatars/8.jpg'
           alt=''
           style={{ width: '45px', height: '45px' }}
           className='rounded-circle me-3'
-        />
+          />
         <div>
           <h2 className='fw-bold mb-2'>{users.username}</h2>
           <p className='fw-normal mb-1'>{users.email}</p>
@@ -86,32 +104,41 @@ export default function ViewMoreDetail() {
 
       <hr className='my-4' />
 
-      {/* <div>
-        <h3 className='fw-bold'>Order Details</h3>
+      <h3 className='fw-bold my-5 ' style={{textAlign:"center"}}>Order Details</h3>
+      <div className='col  d-flex justify-content-evenly mb-5'>
+    {userMore.map((data) => (
+      console.log(data),
        
-        {user.orders.map((order, index) => (
-          <ul key={index} className='list-unstyled'>
+       <div className=''>
+
+          <ul  className='list-unstyled'>
             <li>
-              <strong>Name:</strong> {order.name}
+              <strong>Name:</strong> {data.title}
             </li>
             <li>
-              <strong>Description:</strong> {order.description}
+              <strong>date:</strong> {data.date}
             </li>
             <li>
-              <strong>Price:</strong> ${order.price.toFixed(2)}
+              <strong>Time:</strong> {data.time}
+            </li>
+            
+            <li>
+              <strong>PaymentID:</strong> {data.payment_id}
             </li>
             <li>
-              <strong>Type:</strong> {order.type}
+              <strong>Total:</strong> {data.total_amount}
             </li>
             <li>
-              <strong>Quantity:</strong> {order.quantity}
-            </li>
-            <li>
-              <strong>Image:</strong> <img src={order.image} alt={order.name} style={{ width: '100px' }} />
+              <strong>Image:</strong> <img style={{ width: '100px' }} />
             </li>
           </ul>
-        ))}
-      </div> */}
+     
+       </div>
+      
+      ))}
+      </div>
     </MDBContainer>
+     
+        </>
   );
 }

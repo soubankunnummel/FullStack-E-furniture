@@ -7,7 +7,8 @@ import {
   MDBCardImage,
   MDBBtn,
   MDBRow,
-  MDBCol, 
+  MDBCol,
+  MDBIcon, 
 } from "mdb-react-ui-kit"; 
 import { Productcontext } from "../Context";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +18,10 @@ import toast from "react-hot-toast";
 
 
 
+
 export default function AllProducts() {
   
+  const {addToWishlist} = useContext(Productcontext)
   const [products, setProducts] = useState([])
   const navigate = useNavigate();
   const isUser = localStorage.getItem("userId")
@@ -38,7 +41,7 @@ export default function AllProducts() {
     };
 
     fetchProducts();
-  }, [setProducts]);
+  }, []);
   
   const handleViewProduct = (productId) => {
     if (isUser) {
@@ -66,8 +69,10 @@ export default function AllProducts() {
                     position="top"
                     alt="..."
                   />
-                  <MDBCardBody>
-                    <MDBCardTitle>{product.name} </MDBCardTitle>
+                  <MDBCardBody className="d-flex justify-content-evenly" >
+                    <div>
+
+                    <MDBCardTitle>{product.title} </MDBCardTitle>
                     <MDBCardText>{product.discription}</MDBCardText>
                     <MDBCardTitle>${product.price} </MDBCardTitle>
 
@@ -75,6 +80,15 @@ export default function AllProducts() {
                     <MDBBtn onClick={() => handleViewProduct(product._id)}>
                       View
                     </MDBBtn>
+                    </div>
+                    <div>
+
+                    <MDBIcon style={{marginLeft:80, fontSize:25,}} far icon="heart" 
+                  
+                  onClick={() => 
+                    isUser ? addToWishlist(product._id): toast.error("Pleas login")
+                  } />
+                    </div>
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>

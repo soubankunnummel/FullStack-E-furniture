@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useId, useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -51,8 +51,23 @@ export default function   Navebar() {
     if(storUseName){
       navigat(`/wishList/${userId}`)
     }
-    window.confirm("You have to Login ")
-    navigat("/Login")
+    else{
+
+      window.confirm("You have to Login ")
+      navigat("/Login")
+    }
+  }
+
+  // handle Oders
+
+  const handleOrders = () => {
+    if(storUseName) {
+      navigat(`/Orders/${userId}`)
+    }else{
+
+      window.confirm("You have to Login ")
+      navigat("/Login")
+    }
   }
 
   // handle log out
@@ -203,7 +218,7 @@ export default function   Navebar() {
                 <span className="ms-2">Wishlist</span> 
                 </MDBDropdownItem>
 
-                <MDBDropdownItem  link onClick={() => navigat(`/wishList/${userId}`) }>
+                <MDBDropdownItem  link onClick={() => handleOrders()}>
                 <MDBIcon fas icon="box-open" />
                 <span className="ms-2">Orders</span> 
                 </MDBDropdownItem>

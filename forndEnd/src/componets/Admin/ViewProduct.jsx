@@ -30,8 +30,7 @@ export default function ViewPoduct() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await Axios.get("/api/admin/products");
-
+        const response = await Axios.get("/api/admin/products")
         if (response.status === 200) {
           setProducts(response.data.data);
         }
@@ -41,13 +40,7 @@ export default function ViewPoduct() {
     };
 
     fetchProducts(); 
-
-    // Check if the data fetching is complete before navigating
-    const isDataFetched = products.length > 0;
-    if (!isDataFetched) {
-      navigate("/ViewProduct"); // Navigate only after data fetching is complete
-    }
-  }, [setProducts, navigate, products]);
+  },[]);
 
   return (
     <>

@@ -43,6 +43,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import WishList from "./pages/WishList";
 import SuccessPayment from "./componets/Success";
+import Orders from "./componets/Orders";
 
 export const Axios = axios.create({
   baseURL : process.env.REACT_APP_BASE_URL,
@@ -210,6 +211,7 @@ function App() {
           <Route path="/Bath" element={<Bathroom/>}/>
           <Route path="/wishList/:id" element={<WishList/>} />
           <Route path="/payment/success" element={<SuccessPayment/>}/>
+          <Route path="/Orders/:id" element={<Orders/>} />
         
 
 

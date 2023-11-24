@@ -432,7 +432,7 @@ updateCartItemQuantity: async (req, res) => {
     }
 
     const cartProdcts = user.cart;
-    // console.log(cartProdcts);   
+    console.log("cartProducts", cartProdcts);   
     if (cartProdcts.length === 0) {
       return res
         .status(200)
@@ -454,7 +454,7 @@ updateCartItemQuantity: async (req, res) => {
         quantity: item.quantity,
       };
     });
-
+console.log("lineitems",lineItems)
   //   const totalAmount = lineItems.reduce((total, item) => total + item.price_data.unit_amount * item.quantity, 0);
   // console.log("Total Amount:", totalAmount);
 
@@ -493,22 +493,23 @@ updateCartItemQuantity: async (req, res) => {
     // console.log(id)
     const userId = user._id;
     const cartItems = user.cart;
-
+    console.log("cartItems",cartItems)
+    const productId = cartItems.map((item) => item.productsId)
     const orders = await Order.create({
       userId: id,
-      products: cartItems.map(
-        (value) => new mongoose.Types.ObjectId(value._id)
-      ),
+      products:productId,
       order_id: session.id,
       payment_id: `demo ${Date.now()}`,
       total_amount: session.amount_total / 100,
     });
+    console.log("ordrs:", orders)
 
     if (!orders) {
       return res.json({ message: "error occured while inputing to orderDB" });
     }
 
     const orderId = orders._id;
+    console.log("order;eid", orderId)
 
     const userUpdate = await User.updateOne(
       { _id: userId },
@@ -519,7 +520,7 @@ updateCartItemQuantity: async (req, res) => {
       { new: true }
     );
 
-    console.log(userUpdate);
+    // console.log(userUpdate);
 
     // console.log ("uSer Update",userUpdate)
 
@@ -625,7 +626,8 @@ updateCartItemQuantity: async (req, res) => {
 orderDetails: async (req, res) => {
   const userId = req.params.id;
   
-  const user = await User.findById(userId).populate('orders');
+    // console.log('User:', user);
+    const user = await User.findById(userId).populate('orders')
   console.log('User:', user);
 
   if (!user) {
@@ -644,8 +646,7 @@ orderDetails: async (req, res) => {
           data: [],
       });
   }
-
-
+  
   const ordersWithProducts = await Order.find({ _id: { $in: ordProduts } })
   .populate("products")
 
@@ -654,32 +655,6 @@ orderDetails: async (req, res) => {
       data: ordersWithProducts,
   });
 }
-
-// orderDetails: async (req, res) => {
-//   const userId = req.params.id
-//   const user = await User.findById(userId).populate("orders")
-//   // console.log("user",user)
-//   if(!user){
-//     return res.status(404).json({
-//       status:"failear",
-//       message:"User Not Fount"
-//     })
-//   }
-//   const Products = user.orders
-//   console.log(Products)
-//   if(product.length === 0){
-//     return res.status(200).json({
-//       message:"No orders awilable",
-//       data:[]
-//     })
-//   }
-//   const orderedProduct = await OrderDatabase.findById(Products).populate("products")
-//   res.status(200).json({
-//     message: 'Ordered Products Details Found',
-//     data: orderedProduct,
-//     });
-
-// }
 
 
 };

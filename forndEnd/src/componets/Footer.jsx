@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="fixed-bottom ">
         <MDBFooter
           className="text-center text-white "
-          style={{ backgroundColor: "#f1f1f1", height: 50 , marginTop:30}}
+          style={{ backgroundColor: "#f1f1f1", height: 50 }}
         >
 
           <MDBBtn

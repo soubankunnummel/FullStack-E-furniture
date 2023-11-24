@@ -11,16 +11,18 @@ import {
   MDBBtn,
   MDBRow,
   MDBCol,
+  MDBIcon,
 } from "mdb-react-ui-kit";
 import Navebar from "../componets/Navebar";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 
 export default function View() {
-  const {  fetchCartCount , cartCount} = useContext(Productcontext);
+  const isUser = localStorage.getItem("userName")
+  const {  fetchCartCount , cartCount,addToWishlist} = useContext(Productcontext);
   const [product, setProduct] = useState([])
   const { id } = useParams();
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId") 
   const navigate = useNavigate(); 
  
   
@@ -34,7 +36,6 @@ export default function View() {
         
       } catch (error) {
         console.log(error);
-        
       }
     }
     fechProduct()
@@ -64,19 +65,19 @@ export default function View() {
 
  
 
-const handleChekout = async () => { 
-  try {
-    const response = await Axios.post(`/api/users/${userId}/payment`);
-    if(response.status === 200){
-      const url = response.data.url
-      const confermation = window.confirm("Payment session created. Redirecting to the payment gateway. Continue?")
-      if(confermation) window.location.replace(url)
-    }
-  } catch (error) {
-    toast.error(error.response.data.message)
+// const handleChekout = async () => { 
+//   try {
+//     const response = await Axios.post(`/api/users/${userId}/payment`);
+//     if(response.status === 200){
+//       const url = response.data.url
+//       const confermation = window.confirm("Payment session created. Redirecting to the payment gateway. Continue?")
+//       if(confermation) window.location.replace(url)
+//     }
+//   } catch (error) {
+//     toast.error(error.response.data.message)
     
-  }
-};
+//   }
+// };
 
  
 
@@ -89,7 +90,11 @@ const handleChekout = async () => {
       
         <MDBRow key={product._id} className="view-card">
           <MDBCol md="6">
-            <MDBCard>
+            <MDBCard> 
+              <div className="" style={{position:"absolute" , top:20, right:30}}>
+              <MDBIcon style={{marginLeft:80,paddingTop:10, fontSize:35,}} far icon="heart"onClick={() => 
+               isUser ? addToWishlist(product._id): toast.error("Pleas login") } />
+                </div> 
               <MDBCardImage src={product.image} alt={product.title} />
             </MDBCard>
           </MDBCol>

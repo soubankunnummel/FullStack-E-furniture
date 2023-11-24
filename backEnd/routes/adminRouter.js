@@ -26,6 +26,8 @@ router
 .patch("/products/:id", tryCatchMiddleware(admin.updateProduct))
 .get("/orders",tryCatchMiddleware(admin.orderDtails))
 .get("/status",tryCatchMiddleware(admin.status))
+.get("/:id/order",tryCatchMiddleware(admin.userOrderDetails))
+
 
 
 

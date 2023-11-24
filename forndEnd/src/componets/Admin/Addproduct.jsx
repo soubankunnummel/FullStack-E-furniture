@@ -120,7 +120,7 @@ export default function AddProduct() {
 
               <div className="mb-3">
                 <label htmlFor="image" className="form-label">
-                  Image Upload
+                  Image-1
                 </label>
                 <input
                   type="file"
@@ -128,6 +128,40 @@ export default function AddProduct() {
                   name="image"
                   className="form-control"
                   onChange={handleImageChange}
+                  placeholder="img-1"
+                />
+                <label htmlFor="image" className="form-label">
+                  Image-2
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  className="form-control"
+                  onChange={handleImageChange}
+                  placeholder="img-2"
+                />
+                <label htmlFor="image" className="form-label">
+                  Image-3
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  className="form-control"
+                  onChange={handleImageChange}
+                  placeholder="img-3"
+                />
+                <label htmlFor="image" className="form-label">
+                  Image-4
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  className="form-control"
+                  onChange={handleImageChange}
+                  placeholder="img-4"
                 />
               </div>
 

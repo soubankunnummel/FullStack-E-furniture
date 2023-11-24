@@ -215,7 +215,7 @@ if (allUsers.length === 0) {
     if (products.length === 0) {
       return res.status(200).json({
         message: "No products ",
-      });
+      }); 
     }
     res.status(200).json({
       status: "Success",
@@ -250,4 +250,36 @@ if (allUsers.length === 0) {
         });
     }
   },
+  userOrderDetails: async (req, res) => {
+    const userId = req.params.id;
+      // console.log('User:', user);
+      const user = await Users.findById(userId).populate('orders')
+    console.log('User:', user);
+  
+    if (!user) {
+        return res.status(404).json({
+            status: 'Failure',
+            message: 'User Not Found',
+        });
+    }
+  
+    const ordProduts = user.orders;
+    console.log('User Orders:', ordProduts);
+  
+    if (ordProduts.length === 0) {
+        return res.status(200).json({
+            message: "You don't have any product orders.",
+            data: [],
+        });
+    }
+    
+    const ordersWithProducts = await Order.find({ _id: { $in: ordProduts } })
+    .populate("products")
+  
+    res.status(200).json({
+        message: 'Ordered Products Details Found',
+        data: ordersWithProducts,
+    });
+  }
+  
 };
