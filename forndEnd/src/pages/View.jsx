@@ -17,15 +17,12 @@ import { Axios } from "../App";
 import toast from "react-hot-toast";
 
 export default function View() {
-  const {  fetchCartCount } = useContext(Productcontext);
+  const {  fetchCartCount , cartCount} = useContext(Productcontext);
   const [product, setProduct] = useState([])
-  
   const { id } = useParams();
   const userId = localStorage.getItem("userId")
   const navigate = useNavigate(); 
  
-  
-  
   
   useEffect(() => {
     const fechProduct = async () => {
@@ -55,8 +52,8 @@ export default function View() {
       const response = await Axios.post( `/api/users/${userId}/cart`,{producId: id })
      
       if (response.status === 200){
+        await Axios.get(`/api/users/${userId}/cart`)
         toast.success("Product added to the cart!")
-       
       }
       
     } catch (error) {
@@ -65,8 +62,9 @@ export default function View() {
     }
   };
 
+ 
 
-const handleChekout = async () => {
+const handleChekout = async () => { 
   try {
     const response = await Axios.post(`/api/users/${userId}/payment`);
     if(response.status === 200){
@@ -103,7 +101,7 @@ const handleChekout = async () => {
                 <MDBCardText>
                   <strong>Price:</strong> ₹{product.price}
                 </MDBCardText>
-
+             
                 <MDBBtn
                   className="mx-2"
                   color="primary"
@@ -111,8 +109,9 @@ const handleChekout = async () => {
                 >
                   Add to Cart
                 </MDBBtn>
-                <MDBBtn color="success" onClick={() => handleChekout(product._id)}>
-                  Buy Now
+              
+                <MDBBtn color="success" onClick={() => navigate(`/cart/${userId}`)}>
+                  Go to cart
                 </MDBBtn>
               </MDBCardBody>
             </MDBCard>

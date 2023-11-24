@@ -1,6 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PetContext } from "../App";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 

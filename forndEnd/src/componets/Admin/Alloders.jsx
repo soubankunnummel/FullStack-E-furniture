@@ -1,11 +1,27 @@
 // AllOrders.js
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Productcontext } from '../../Context';
 import AdmiNav from './AdmiNav';
+import { Axios } from '../../App';
 
 
 export default function Alloders() {
     const {login} = useContext(Productcontext)
+    const [data, setData] = useState([])
+    console.log(data)
+    useEffect(() => {
+      const fetchOrders = async () => {
+        try {
+          const response = await Axios.get(`/api/admin/orders`)
+          if(response.status === 200){
+            setData(response.data.products)
+          }
+        } catch (error) {
+          
+        }
+      }
+      fetchOrders()
+    },[])
   return (
     <>
     <AdmiNav/>
@@ -15,24 +31,24 @@ export default function Alloders() {
         <thead>
           <tr>
             <th scope='col'>Order ID</th>
-            <th scope='col'>Name</th>
-            <th scope='col'>Owner</th>
-            <th scope='col'>Description</th>
-            <th scope='col'>Price</th>
-            <th scope='col'>Type</th>
-            <th scope='col'>Quantity</th>
+            <th scope='col'>Date</th>
+            <th scope='col'>Time</th>
+            <th scope='col'>OrderId</th>
+            <th scope='col'>PaymentId</th>
+            <th scope='col'>Total</th>
+           
           </tr>
         </thead>
         <tbody>
-          {login.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.product.name}</td>
-              <td>{product.username}</td>
-              <td>{product.product.description}</td>
-              <td>${product.product.price}</td>
-              <td>{product.product.type}</td>
-              <td>{product.product.quantity}</td>
+          {data.map((product) => (
+            <tr key={product._id}>
+              <td>{product._id}</td>
+              <td>{product.date}</td>
+              <td>{product.time}</td>
+              <td>{product.order_id}</td>
+              <td>${product.payment_id}</td>
+              <td>{product.total_amount}</td>
+             
             </tr>
           ))}
         </tbody>

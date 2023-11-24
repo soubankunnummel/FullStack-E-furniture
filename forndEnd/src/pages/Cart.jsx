@@ -17,10 +17,8 @@ import Navebar from "../componets/Navebar";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 
-export default function Cart({}) {
-  // const { cart, setCart, itemCount } = useContext(Productcontext);
-  // const { setCartCount} = useContext(Productcontext)
-  // const [count ,stCount ] = useState("")
+export default function Cart() {
+  
   const [products, setProducts] = useState([])
 
   const {id} = useParams()
@@ -99,7 +97,7 @@ const handleChekout = async () => {
   }
 };
 
-// TODO: add by now function 
+
 
 
   return (

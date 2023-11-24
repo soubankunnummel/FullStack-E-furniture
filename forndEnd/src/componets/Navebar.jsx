@@ -21,7 +21,7 @@ import { Productcontext } from "../Context";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 
-export default function   Navebar({ size }) {
+export default function   Navebar() {
   const [serchTerm, setSerchTerm] = useState("");
   const [products, setProducts] = useState([])
   const [showBasic, setShowBasic] = useState(false);
@@ -29,8 +29,6 @@ export default function   Navebar({ size }) {
   const { fetchCartCount , count} = useContext(Productcontext);
   const userId = localStorage.getItem("userId")
   let storUseName = localStorage.getItem("userName");
-  
-  
   fetchCartCount()
 
   useEffect(() => {
@@ -47,6 +45,15 @@ export default function   Navebar({ size }) {
     }
     fechData()
   },[setSerchTerm])
+
+  // handle wishlist
+  const handleWishlist = () => {
+    if(storUseName){
+      navigat(`/wishList/${userId}`)
+    }
+    window.confirm("You have to Login ")
+    navigat("/Login")
+  }
 
   // handle log out
 
@@ -182,13 +189,25 @@ export default function   Navebar({ size }) {
                 />
               </MDBDropdownToggle>
               <MDBDropdownMenu>
-                <MDBDropdownItem link onClick={() => navigat("/")}>
-                  {" "}
-                  {storUseName}{" "}
+              {storUseName === null ? <span></span> : (
+            <>
+            <MDBDropdownItem link onClick={() => navigat("/")}>
+            <MDBIcon far icon="user" />
+             <span className="ms-2">{storUseName}</span>
+              </MDBDropdownItem>
+              </>
+            )}
+
+                <MDBDropdownItem  link onClick={() => handleWishlist() }>
+                <MDBIcon style={{marginLeft:1}} far icon="heart"  /> 
+                <span className="ms-2">Wishlist</span> 
                 </MDBDropdownItem>
-                <MDBDropdownItem link onClick={() => navigat("/")}>
-                  Settings
+
+                <MDBDropdownItem  link onClick={() => navigat(`/wishList/${userId}`) }>
+                <MDBIcon fas icon="box-open" />
+                <span className="ms-2">Orders</span> 
                 </MDBDropdownItem>
+
                 {storUseName === null ? (
                   <MDBDropdownItem
                     className="ms-3"
@@ -197,10 +216,15 @@ export default function   Navebar({ size }) {
                     Sign In{" "}
                   </MDBDropdownItem>
                 ) : (
+                  <>
                   <MDBDropdownItem link onClick={hanleLogOUt}>
                     {" "}
                     sign Out{" "}
                   </MDBDropdownItem>
+                 
+                  </>
+                  
+                  
                 )}
               </MDBDropdownMenu>
             </MDBDropdown>
@@ -221,7 +245,7 @@ export default function   Navebar({ size }) {
               </>
             )}
         
-                  <MDBIcon style={{marginLeft:40, fontSize:25,}} far icon="heart" onClick={() => navigat(`/wishList/${userId}`) } />
+               
 
           </MDBCollapse>
         </MDBContainer>

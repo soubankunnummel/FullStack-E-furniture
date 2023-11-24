@@ -455,15 +455,15 @@ updateCartItemQuantity: async (req, res) => {
       };
     });
 
-    const totalAmount = lineItems.reduce((total, item) => total + item.price_data.unit_amount * item.quantity, 0);
-  console.log("Total Amount:", totalAmount);
-  
+  //   const totalAmount = lineItems.reduce((total, item) => total + item.price_data.unit_amount * item.quantity, 0);
+  // console.log("Total Amount:", totalAmount);
+
     session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:3000/payment/success`, // Replace with your success URL
-      cancel_url: "http://localhost:3000/payment/cancel", // Replace with your cancel URL
+      success_url: `http://localhost:3000/payment/success`, 
+      cancel_url: "http://localhost:3000/payment/cancel", 
     });
 
     // console.log("Stripe Session:", session);
@@ -566,13 +566,13 @@ updateCartItemQuantity: async (req, res) => {
 // const ordProd = await Order.find({ _id: { $in: ordProduts } })
 // console.log("finding order:",ordProd)
 
-// // const orderIds = ordProduts.map(order => order._id);
-// const ordersWithProducts = await Order.find({ _id: { $in: ordProduts } }).populate('product');
+// const orderIds = ordProduts.map(order => order._id);
+// const ordersWithProducts = await Order.find({ _id: { $in: orderIds } }).populate('products');
 // console.log(ordersWithProducts)
 
 // //  const det = await product.findById({_id: data })
  
-//     // if (ordProduts.length === 0) {
+//     // if (orderIds.length === 0) {
 //     //   return res
 //     //     .status(200)
 //     //     .json({ message: "you don't have no product to order" });
@@ -583,11 +583,48 @@ updateCartItemQuantity: async (req, res) => {
 
 //     res
 //       .status(200)
-//       .json({ message: "Orders Products finded"});
+//       .json({ message: "Orders Products finded",data:ordersWithProducts});
 //   },
+
+
+// orderDetails: async (req, res) => {
+//   const userId = req.params.id;
+
+//   const user = await User.findById(userId).populate('orders')
+//   console.log("user:-", user)
+//   if (!user) {
+//     return res.status(404).json({
+//       status: 'Failure',
+//       message: 'User Not Found',
+//     });
+//   }
+
+//   const ordProduts = user.orders;
+//   console.log("order", ordProduts)
+//   // console.log("idu",user.orders[0]._id);
+
+//   if (ordProduts.length === 0) {
+//     return res.status(200).json({
+//       message: "You don't have any product orders.",
+//       data: [],
+//     });
+//   }
+ 
+//   // orderDetails function
+// const ordersWithProducts = await Order.find({ _id: ordProduts  }).populate('products'); 
+// // console.log(ordersWithProducts)
+
+
+// res.status(200).json({
+// message: 'Ordered Products Details Found',
+// data: ordersWithProducts,
+// });
+
+// },
+
 orderDetails: async (req, res) => {
   const userId = req.params.id;
-
+  
   const user = await User.findById(userId).populate('orders');
   console.log('User:', user);
 
@@ -608,9 +645,7 @@ orderDetails: async (req, res) => {
       });
   }
 
-  // const orderIds = ordProduts.map(order => order._id);
 
-  // Find orders using the order IDs and populate the "products" field
   const ordersWithProducts = await Order.find({ _id: { $in: ordProduts } })
   .populate("products")
 
@@ -619,4 +654,32 @@ orderDetails: async (req, res) => {
       data: ordersWithProducts,
   });
 }
+
+// orderDetails: async (req, res) => {
+//   const userId = req.params.id
+//   const user = await User.findById(userId).populate("orders")
+//   // console.log("user",user)
+//   if(!user){
+//     return res.status(404).json({
+//       status:"failear",
+//       message:"User Not Fount"
+//     })
+//   }
+//   const Products = user.orders
+//   console.log(Products)
+//   if(product.length === 0){
+//     return res.status(200).json({
+//       message:"No orders awilable",
+//       data:[]
+//     })
+//   }
+//   const orderedProduct = await OrderDatabase.findById(Products).populate("products")
+//   res.status(200).json({
+//     message: 'Ordered Products Details Found',
+//     data: orderedProduct,
+//     });
+
+// }
+
+
 };

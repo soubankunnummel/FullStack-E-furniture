@@ -223,6 +223,7 @@ if (allUsers.length === 0) {
       products,
     });
   },
+  
   //Total revenue generated
 
   status: async (req, res) => {

@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <>
-      <Navebar size={cartCount} />
+      <Navebar  />
       <Banner />
       <div className="container mx-5 ">
         <h1

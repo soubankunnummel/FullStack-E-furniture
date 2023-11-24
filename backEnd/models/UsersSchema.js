@@ -18,7 +18,7 @@ const userSchema =  new mongoos.Schema({
         }
     ],
     wishlist:[{type:mongoos.Schema.ObjectId, ref:"Product"}],
-    orders:[]
+    orders:[{type:mongoos.Schema.ObjectId, ref:"orders"} ]
 
 })
 
