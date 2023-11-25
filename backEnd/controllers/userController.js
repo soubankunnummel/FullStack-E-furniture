@@ -327,7 +327,7 @@ updateCartItemQuantity: async (req, res) => {
       { $pull: { cart: { productsId:itemId } } }
     );
   
-    if (result.nModified > 0) {
+    if (result.modifiedCount > 0) {
       console.log("Item removed successfully");
       res.status(200).json({message:"Product removed successfuly",data: result})
     } else {

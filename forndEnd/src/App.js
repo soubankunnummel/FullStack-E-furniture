@@ -137,13 +137,12 @@ function App() {
               console.log(error)
               
             }
-       
       }
       fetchDatas()
     },[])
   }
  
-
+  useEffect(() => {Axios},[Axios])
 
   return (
     <>

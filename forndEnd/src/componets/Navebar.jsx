@@ -204,7 +204,7 @@ export default function   Navebar() {
                 />
               </MDBDropdownToggle>
               <MDBDropdownMenu>
-              {storUseName === null ? <span></span> : (
+              {storUseName === null || undefined ? <span></span> : (
             <>
             <MDBDropdownItem link onClick={() => navigat("/")}>
             <MDBIcon far icon="user" />
@@ -224,21 +224,21 @@ export default function   Navebar() {
                 </MDBDropdownItem>
 
                 {storUseName === null ? (
-                  <MDBDropdownItem
-                    className="ms-3"
+                  
+                  <MDBDropdownItem link
+                    className=""
                     onClick={() => navigat("/Login")}
                   >
-                    Sign In{" "}
+                    <MDBIcon fas icon="sign-in-alt" />
+                    <span className="ms-2"> Sign In</span>
                   </MDBDropdownItem>
+                
                 ) : (
-                  <>
+                
                   <MDBDropdownItem link onClick={hanleLogOUt}>
-                    {" "}
-                    sign Out{" "}
+                  <MDBIcon fas icon="sign-out-alt" />
+                   <span className="ms-2">sign out</span>
                   </MDBDropdownItem>
-                 
-                  </>
-                  
                   
                 )}
               </MDBDropdownMenu>

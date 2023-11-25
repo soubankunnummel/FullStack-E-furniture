@@ -116,14 +116,13 @@ if (allUsers.length === 0) {
   ///-> Create a product.
 
   creatProduct: async (req, res) => {
-    
+    console.log("creaded")
     const { value, error } = joiProductSchema.validate(req.body);
     const { title, description, price, image, category } = value;
-   
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
       //    return res.send(error.message)
-    } else { 
+    } else {  
       await products.create({
         title,
         description,

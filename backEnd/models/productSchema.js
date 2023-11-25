@@ -5,10 +5,10 @@ const productSchema = new mongoos.Schema({
     description: String,
     price: Number,
     image: String,  
+    img1:String, 
+    img2:String,
+    img2:String,
     category: String,
-    img1:String,
-    img2:String,
-    img2:String,
   
    
 

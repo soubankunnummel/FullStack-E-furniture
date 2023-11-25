@@ -13,17 +13,18 @@ export default function AddProduct() {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);  
+  const [image, setImage] = useState(null); 
 
   const handleImageChange = (e) => {
     // Update the state with the selected image file
     setImage(e.target.files[0]);
+    
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (!title || !category || !price || !description || !image) {
+    if (!title || !category || !price || !description || !image ) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -35,11 +36,9 @@ export default function AddProduct() {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("image", image); 
-   
+  
     try {
       const jwtToken = localStorage.getItem('jwt');
-      
-  
       const response = await axios.post(
         "http://localhost:7000/api/admin/products",
         formData,
@@ -51,7 +50,7 @@ export default function AddProduct() {
         }
       );
   
-    //   console.log(response);
+      console.log(response);
   
       
       if (response.status === 201) {
@@ -128,44 +127,12 @@ export default function AddProduct() {
                   name="image"
                   className="form-control"
                   onChange={handleImageChange}
-                  placeholder="img-1"
+                  placeholder="img-1" 
                 />
-                <label htmlFor="image" className="form-label">
-                  Image-2
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  className="form-control"
-                  onChange={handleImageChange}
-                  placeholder="img-2"
-                />
-                <label htmlFor="image" className="form-label">
-                  Image-3
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  className="form-control"
-                  onChange={handleImageChange}
-                  placeholder="img-3"
-                />
-                <label htmlFor="image" className="form-label">
-                  Image-4
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  className="form-control"
-                  onChange={handleImageChange}
-                  placeholder="img-4"
-                />
+
               </div>
 
-              <button type="submit" className="btn btn-success mt-4">
+              <button type="submit" className="btn btn-success mt-2 mb-5">
                 Submit
               </button>
             </form>

@@ -73,6 +73,7 @@ export default function Cart() {
      const response = await Axios.delete(`/api/users/${id}/cart/${itemId}`);
      console.log(response)
     if (response.status === 200) {
+      toast.success(response.data.message)
        return fechCart()
     }
   } catch (error) {
@@ -136,7 +137,7 @@ const handleChekout = async () => {
                         <div className="flex-grow-1 ms-3">
                       
                           <a
-                            href=""
+                            href="#"
                             className="float-end text-black"
                             onClick={() => handleRemoveItem(item.productsId._id)}
                           >

@@ -40,7 +40,7 @@ export default function ViewPoduct() {
     };
 
     fetchProducts(); 
-  },[]);
+  },[Axios]);
 
   return (
     <>

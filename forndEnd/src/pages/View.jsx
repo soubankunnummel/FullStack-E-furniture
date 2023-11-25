@@ -39,7 +39,7 @@ export default function View() {
       }
     }
     fechProduct()
-  },[])
+  },[ ])
   
 
   if (!product) { return <h1 style={{ textAlign: "center" }}>Product not found</h1>;}
