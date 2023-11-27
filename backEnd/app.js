@@ -5,7 +5,7 @@ const app = express()
 const PORT = 7000
 const userRouter = require("./routes/userRouter")
 const adminRoute = require("./routes/adminRouter")
-// const ErroHandler = require("./middelwares/ErrorHandler")
+const ErroHandler = require("./middelwares/ErrorHandler")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
@@ -18,7 +18,7 @@ mongoose.connect("mongodb://localhost:27017/FullStack-E-comers", {
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
+app.use(ErroHandler)
 app.use(express.json())
 
 

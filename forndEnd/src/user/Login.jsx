@@ -18,11 +18,8 @@ export default function Login(props) {
 
   const navigate = useNavigate();
   const {  setUerName} = useContext(Productcontext);
-
-
   const handlLogin = async (e) => {
     e.preventDefault();
-  
     const username = e.target.username.value.trim().toLowerCase();
     const password = e.target.password.value.trim();
     const adminUserName = process.env.REACT_APP_ADMIN_USER_NAME
@@ -31,13 +28,11 @@ export default function Login(props) {
       toast.error("Enter all the inputs");
       return;
     }
-  
     let url = "http://localhost:7000/api/users/login";
   
     if (username === adminUserName) {
       url = "http://localhost:7000/api/admin/login";
     }
-  
     try {
       const payload = { username, password };
       const response = await axios.post(url, payload);
@@ -72,9 +67,9 @@ export default function Login(props) {
     }
   };
   
-
   const navigat = useNavigate();
-
+  
+  TODO://add Fomik validation 
   return (
     <>
       <div className="login-main ">
