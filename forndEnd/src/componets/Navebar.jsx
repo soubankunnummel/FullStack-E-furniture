@@ -46,6 +46,19 @@ export default function   Navebar() {
     fechData()
   },[setSerchTerm])
 
+  // set category names 
+  const LivingRoom = "Living Room"
+  const Bedroom = "Bedroom"
+  
+
+  // {  products.map((item) => item.category) }
+  // const LivingRoom = products.filter((item) => item.category === "Living Room")
+  // const Bedroom = products.filter((item) => item.category === "Bedroom");
+
+
+  
+ 
+
   // handle wishlist
   const handleWishlist = () => {
     if(storUseName){
@@ -138,13 +151,14 @@ export default function   Navebar() {
                   Categories
                 </MDBDropdownToggle>
                 <MDBDropdownMenu>
-                  <MDBDropdownItem onClick={() => navigat("/LivingRoom")} link>
+                
+                  <MDBDropdownItem onClick={() => navigat(`/LivingRoom/${LivingRoom}`)} link>
                     Living Room
                   </MDBDropdownItem>
                   <MDBDropdownItem onClick={() => navigat("/DinigRoom")} link>
                     Dining Room
                   </MDBDropdownItem>
-                  <MDBDropdownItem onClick={() => navigat("/Bedroom")} link>
+                  <MDBDropdownItem onClick={() => navigat(`/Bedroom/${Bedroom}`)} link>
                     Bedroom Furniture
                   </MDBDropdownItem>
                 </MDBDropdownMenu>
@@ -167,17 +181,18 @@ export default function   Navebar() {
                   {products
                     .filter((val) => {
                       if (serchTerm === "") {
-                        return true; // Include all items when the search term is empty
+                        return true; 
                       } else if (
                         val.title.toLowerCase().includes(serchTerm.toLowerCase())
                       ) {
-                        return true; // Include items that match the search term
+                        return true; 
                       }
-                      return false; // Exclude items that don't match the search term
+                      return false; 
                     })
                     .map((item) => (
                       <div className="search-result-item" key={item._id}>
                         <hr />
+                       
                         <p
                           onClick={() => {
                             navigat(`/View/${item._id}`);

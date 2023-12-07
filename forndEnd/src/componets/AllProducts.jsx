@@ -41,7 +41,7 @@ export default function AllProducts() {
     };
 
     fetchProducts();
-  }, []);
+  }, [Axios]);
   
   const handleViewProduct = (productId) => {
     if (isUser) {

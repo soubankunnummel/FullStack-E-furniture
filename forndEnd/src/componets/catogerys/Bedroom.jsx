@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Productcontext } from "../../Context";
 import {
   MDBCard,
@@ -10,16 +10,36 @@ import {
   MDBRow,
   MDBCol,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navebar from "../Navebar";
+import { Axios } from "../../App";
 
 export default function Bedroom() {
   const navigat = useNavigate();
+  const {categoryname} = useParams()
 
   const handleViewProduct = (productId) => {
     navigat(`/View/${productId}`);
   };
   const { BedroomProductss, serchTerm, cart } = useContext(Productcontext);
+  const [product,setProduct] = useState([])
+  console.log(product)
+  useEffect(() => {
+    const fetchCategory = async () => {
+        try {
+          const response = await Axios.get(`/api/users/products/category/${categoryname}`)
+          console.log(response)
+          if(response.status === 200){
+            setProduct(response.data.data)
+          }
+        } catch (error) {
+          console.log(error)
+          
+        }
+    }
+    fetchCategory()
+  },[])
+  
   return (
     <>
       <Navebar size={cart.length} />
@@ -28,12 +48,7 @@ export default function Bedroom() {
           Bedroom
         </h3>
         <MDBRow className="mt-5" id="allproducts">
-          {BedroomProductss.filter((val) => {
-            return serchTerm.toLowerCase() === " "
-              ? val
-              : val.name.toLowerCase().includes(serchTerm);
-            // return false; // Return false to exclude items that don't match the search term
-          }).map((product, index) => (
+          {product.map((product, index) => (
             <MDBCol md="4" key={index}>
               <MDBCard className="mt-3">
                 <MDBCardImage

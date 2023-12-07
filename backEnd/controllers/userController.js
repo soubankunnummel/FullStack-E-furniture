@@ -141,12 +141,14 @@ module.exports = {
   ///  product by category
 
   productByCatogery: async (req, res) => {
-    console.log(req.params);
+   console.log(req.body)
     const prodCatogery = req.params.categoryname;
+    console.log(prodCatogery)
     const products = await product.find({ category: prodCatogery });
-    if (!products) {
+ 
+    if (!products) {   
       return res.status(404).send({
-        status: "error",
+        status: "error", 
         message: "Product not fond",
       });
     }
@@ -426,13 +428,14 @@ updateCartItemQuantity: async (req, res) => {
   
     // uid = userId  //  for parsing globel vareable
     const user = await User.findOne({ _id: userId }).populate("cart.productsId");
+    // console.log("user:",user)
 
     if (!user) {
       return res.status(404).json({ message: "User Not found" });
     }
 
     const cartProdcts = user.cart;
-    console.log("cartProducts", cartProdcts);   
+    // console.log("cartProducts", cartProdcts);   
     if (cartProdcts.length === 0) {
       return res
         .status(200)
@@ -440,7 +443,7 @@ updateCartItemQuantity: async (req, res) => {
     }
 
     const lineItems = cartProdcts.map((item) => {
-      console.log("Item price:", item.productsId.price);
+      // console.log("Item price:", item.productsId.price);
       return {
         price_data: {
           currency: "inr",
@@ -493,7 +496,7 @@ console.log("lineitems",lineItems)
     // console.log(id)
     const userId = user._id;
     const cartItems = user.cart;
-    console.log("cartItems",cartItems)
+    // console.log("cartItems",cartItems)
     const productId = cartItems.map((item) => item.productsId)
     const orders = await Order.create({
       userId: id,
@@ -502,14 +505,14 @@ console.log("lineitems",lineItems)
       payment_id: `demo ${Date.now()}`,
       total_amount: session.amount_total / 100,
     });
-    console.log("ordrs:", orders)
+    // console.log("ordrs:", orders)
 
     if (!orders) {
       return res.json({ message: "error occured while inputing to orderDB" });
     }
 
     const orderId = orders._id;
-    console.log("order;eid", orderId)
+    // console.log("order;eid", orderId)
 
     const userUpdate = await User.updateOne(
       { _id: userId },

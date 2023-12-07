@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Productcontext } from "../../Context";
 import {
   MDBCard,
@@ -10,32 +10,46 @@ import {
   MDBRow,
   MDBCol,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"; 
 import Navebar from "../Navebar";
+import { Axios } from "../../App";
 
 export default function LivingRoom() {
   const navigat = useNavigate();
-
+  const {categoryname} = useParams()
+  console.log(categoryname)
   const handleViewProduct = (productId) => {
     navigat(`/View/${productId}`);
   };
   const { LivingRooms, serchTerm,cart } = useContext(Productcontext);
+  const [product,setProduct] = useState([])
+  console.log(product)
+  useEffect(() => {
+    const fetchCategory = async () => {
+        try {
+          const response = await Axios.get(`/api/users/products/category/${categoryname}`)
+          console.log(response)
+          if(response.status === 200){
+            setProduct(response.data.data)
+          }
+        } catch (error) {
+          console.log(error)
+          
+        }
+    }
+    fetchCategory()
+  },[])
   return (
     <>
      <Navebar size={cart.length}  />
     <div className="container mx-5">
     <h3 className="mt-5" style={{ marginLeft: "10px", color: "black" }}>LivingRoom</h3>
       <MDBRow className="mt-5" id="allproducts">
-        {LivingRooms.filter((val) => {
-          return serchTerm.toLowerCase() === " "
-            ? val
-            : val.name.toLowerCase().includes(serchTerm);
-          // return false; // Return false to exclude items that don't match the search term
-        }).map((product, index) => (
+        {product.map((product, index) => (
           <MDBCol md="4" key={index}>
             <MDBCard className="mt-3">
               <MDBCardImage
-                onClick={() => handleViewProduct(product.id)}
+                onClick={() => handleViewProduct(product._id)}
                 src={product.image}
                 position="top"
                 alt="..."

@@ -160,7 +160,6 @@ function App() {
           DinigRooms,
           BedroomProductss,
           productss,setProductss,
-          
           cart,
           user,
           setUser,
@@ -181,10 +180,10 @@ function App() {
          <Toaster position="top-center" reverseOrder={false} />
         <Routes>
 
-          if (BedroomProducts) {<Route path="/Bedroom" element={<Bedroom />} />}
+          if (BedroomProducts) {<Route path="/Bedroom/:categoryname" element={<Bedroom />} />}
           if (DinigRoom) {<Route path="/DinigRoom" element={<DiningRoom />} />}
           if (LivingRoom){" "}
-          {<Route path="/LivingRoom" element={<LivingRoom />} />}
+          {<Route path="/LivingRoom/:categoryname" element={<LivingRoom />} />}
           <Route path="/" element={<Home handlClick={handlClick} />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/All" element={<AllProducts />} />
