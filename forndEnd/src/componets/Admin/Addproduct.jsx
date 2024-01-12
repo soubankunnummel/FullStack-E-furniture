@@ -16,7 +16,6 @@ export default function AddProduct() {
   const [image, setImage] = useState(null); 
 
   const handleImageChange = (e) => {
-    // Update the state with the selected image file
     setImage(e.target.files[0]);
     
   };
@@ -36,6 +35,7 @@ export default function AddProduct() {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("image", image); 
+    console.log("img",image)
   
     try {
       const jwtToken = localStorage.getItem('jwt');

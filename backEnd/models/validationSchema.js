@@ -8,7 +8,7 @@ const joiUserSchema = Joi.object({
     phone:Joi.number().min(10).max(10),
     gender:Joi.string(),
     address:Joi.string(),
-    dob:Joi.date()
+    dob:Joi.date() 
 })
 
 const joiProductSchema = Joi.object({

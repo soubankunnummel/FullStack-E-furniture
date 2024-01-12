@@ -119,13 +119,14 @@ if (allUsers.length === 0) {
     console.log("creaded")
     const { value, error } = joiProductSchema.validate(req.body);
     const { title, description, price, image, category } = value;
+    console.log("valeudfdfdfd", value)
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
       //    return res.send(error.message)
     } else {  
       await products.create({
         title,
-        description,
+        description, 
         price,
         image,
         category,

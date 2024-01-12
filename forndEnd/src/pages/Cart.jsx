@@ -193,7 +193,8 @@ const handleChekout = async () => {
                             style={{ width: "100px" }}
                             className="fw-bold mx-5 "
                           >
-                            {item.productsId.price * item.quantity}  Items
+                            <span>  {item.productsId.price * item.quantity}  </span>
+                            
                           </MDBTypography>
                         </div>
                       </div>

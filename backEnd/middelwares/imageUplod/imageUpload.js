@@ -1,7 +1,7 @@
 const fs = require("fs")   //to use fore the remove uploaded photos
 const path = require("path")
 const multer = require("multer")
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({ 
     
     destination: path.join(__dirname, 'uploads'),
     filename:(req, file, cb) => {
@@ -10,30 +10,6 @@ const storage = multer.diskStorage({
 })
 // console.log(storage);
 const upload = multer({storage})
-
-// ++ multiple file upload
-
-// const storage1 = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         if(file.filename === "file1" || file.filename === "file2" || file.filename === "file3"){
-//             cb(null, path.join(__dirname, "/upload"))
-//         }else{
-//             cb(new Error("invalid field name"))
-//         }
-//     },
-//     filename:(req, file, cb) => {
-//         cb(null, file.originalname)
-//     }
-// })
-// const uploadd = multer({storage:storage1})
-
-
-//  export const cpUpload = uploadd.fields([
-//     { name: 'file1', maxCount: 1 },
-//     { name: 'file2', maxCount: 8 },
-//     { name: 'file3', maxCount: 8 }
-// ]);
-
 
 
 const cloudinary = require("cloudinary").v2
